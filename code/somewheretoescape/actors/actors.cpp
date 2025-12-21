@@ -1,0 +1,102 @@
+#include <t3d/t3dmodel.h>
+#include "actors.hpp"
+#include "./models/actor.hpp"
+#include "../scene/time.hpp"
+
+void Actors::updateActorsControls() {
+    joypad_poll();
+}
+
+void Actors::createActors() {
+    T3DVec3 blockPositions[] = {
+        (T3DVec3){{32.0f, 0.0f, 32.0f}},
+        (T3DVec3){{0.0f, 0.0f, 32.0f}},
+        (T3DVec3){{-32.0f, 0.0f, 32.0f}},
+
+        (T3DVec3){{32.0f, 0.0f, 0.0f}},
+        (T3DVec3){{32.0f, 0.0f, -32.0f}},
+
+        (T3DVec3){{0.0f, 0.0f, 0.0f}},
+        (T3DVec3){{0.0f, 0.0f, -32.0f}},
+
+        (T3DVec3){{-32.0f, 0.0f, 0.0f}},
+        (T3DVec3){{-32.0f, 0.0f, -32.0f}},
+
+        (T3DVec3){{32.0f, 32.0f, 32.0f}},
+        (T3DVec3){{32.0f, 32.0f, 0.0f}},
+        (T3DVec3){{32.0f, 32.0f, -32.0f}},
+        (T3DVec3){{0.0f, 32.0f, 32.0f}},
+        (T3DVec3){{0.0f, 32.0f, 0.0f}},
+        (T3DVec3){{0.0f, 32.0f, -32.0f}},
+        (T3DVec3){{-32.0f, 32.0f, 32.0f}},
+        (T3DVec3){{-32.0f, 32.0f, 0.0f}},
+        (T3DVec3){{-32.0f, 32.0f, -32.0f}},
+
+        (T3DVec3){{32.0f, 64.0f, 32.0f}},
+        (T3DVec3){{32.0f, 64.0f, 0.0f}},
+        (T3DVec3){{32.0f, 64.0f, -32.0f}},
+        (T3DVec3){{0.0f, 64.0f, 32.0f}},
+        (T3DVec3){{0.0f, 64.0f, 0.0f}},
+        (T3DVec3){{0.0f, 64.0f, -32.0f}},
+        (T3DVec3){{-32.0f, 64.0f, 32.0f}},
+        (T3DVec3){{-32.0f, 64.0f, 0.0f}},
+        (T3DVec3){{-32.0f, 64.0f, -32.0f}}
+    };
+
+    float blockScale = 0.5f;
+    float juriScale = 0.064f;
+
+    // actorBodys.push_back(
+    //     _body.createActorBody(dirtBlockModel, (T3DVec3){{blockScale, blockScale, blockScale}}, blockPositions[0])
+    // );
+    // actorBodys.push_back(
+    //     _body.createActorBody(dirtBlockModel, (T3DVec3){{blockScale, blockScale, blockScale}}, blockPositions[26])
+    // );
+
+    actorBodys.push_back(
+        _body.createActorBody(juriModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[15])
+    );
+    actorBodys.push_back(
+        _body.createActorBody(dwellerModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[8])
+    );
+
+    actorBodys.push_back(
+        _body.createActorBody(ramModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[1])
+    );
+
+    actorBodys.push_back(
+        _body.createActorBody(bunnyModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[0])
+    );
+
+    // actorBodys.push_back(
+    //     _body.createActorBody(squirrelModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[5])
+    // );
+
+
+}
+
+void Actors::drawActors() {
+
+    for (ActorBody actorBody : actorBodys) {
+        _body.drawActorBody(&actorBody);
+    }
+
+}
+
+void Actors::deleteActors() {
+    for (Actor actor : actors) {
+        rspq_block_free(actor.dpl);
+
+        free_uncached(actor.modelMat);
+    }
+
+    for (ActorBody actorBody : actorBodys) {
+        rspq_block_free(actorBody.dpl);
+
+        free_uncached(actorBody.modelMat);
+    }
+}
+
+Actors::~Actors() {
+    deleteActors();
+}

@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="n64 gdb" type="CLion_Remote" activateToolWindowBeforeRun="false" focusToolWindowBeforeRun="true" version="1" remoteCommand="127.0.0.1:8080" symbolFile="$PROJECT_DIR$/build/somewheretoescape.elf" sysroot="">
+    <debugger kind="GDB" isBundled="true" />
+    <method v="2" />
+  </configuration>
+</component>

@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="debug n64 gdb" type="CompoundRunConfigurationType">
+    <toRun name="n64 gdb" type="CLion_Remote" />
+    <toRun name="n64" type="ShConfigurationType" />
+    <method v="2" />
+  </configuration>
+</component>

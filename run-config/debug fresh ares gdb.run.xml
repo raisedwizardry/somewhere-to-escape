@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="debug fresh ares gdb" type="CompoundRunConfigurationType">
+    <toRun name="gdb" type="CLion_Remote" />
+    <toRun name="fresh ares" type="ShConfigurationType" />
+    <method v="2" />
+  </configuration>
+</component>
