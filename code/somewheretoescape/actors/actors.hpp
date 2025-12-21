@@ -36,5 +36,5 @@ class Actors {
         T3DModel *dwellerModel = t3d_model_load("rom:/somewheretoescape/dweller.t3dm");
         T3DModel *ramModel = t3d_model_load("rom:/somewheretoescape/ram.t3dm");
         T3DModel *bunnyModel = t3d_model_load("rom:/somewheretoescape/bunny.t3dm");
-        //T3DModel *squirrelModel = t3d_model_load("rom:/somewheretoescape/squirrel.t3dm");
+        T3DModel *squirModel = t3d_model_load("rom:/somewheretoescape/squir.t3dm");
 };

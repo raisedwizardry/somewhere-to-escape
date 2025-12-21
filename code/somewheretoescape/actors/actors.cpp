@@ -46,12 +46,12 @@ void Actors::createActors() {
     float blockScale = 0.5f;
     float juriScale = 0.064f;
 
-    // actorBodys.push_back(
-    //     _body.createActorBody(dirtBlockModel, (T3DVec3){{blockScale, blockScale, blockScale}}, blockPositions[0])
-    // );
-    // actorBodys.push_back(
-    //     _body.createActorBody(dirtBlockModel, (T3DVec3){{blockScale, blockScale, blockScale}}, blockPositions[26])
-    // );
+    actorBodys.push_back(
+        _body.createActorBody(dirtBlockModel, (T3DVec3){{blockScale, blockScale, blockScale}}, blockPositions[0])
+    );
+    actorBodys.push_back(
+        _body.createActorBody(dirtBlockModel, (T3DVec3){{blockScale, blockScale, blockScale}}, blockPositions[26])
+    );
 
     actorBodys.push_back(
         _body.createActorBody(juriModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[15])
@@ -68,9 +68,9 @@ void Actors::createActors() {
         _body.createActorBody(bunnyModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[0])
     );
 
-    // actorBodys.push_back(
-    //     _body.createActorBody(squirrelModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[5])
-    // );
+    actorBodys.push_back(
+        _body.createActorBody(squirModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[2])
+    );
 
 
 }
