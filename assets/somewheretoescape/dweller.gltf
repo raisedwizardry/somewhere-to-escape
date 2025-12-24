@@ -40,7 +40,12 @@
 				"ootPreviewSettingsProperty":{
 					"ootCSPreviewCSObj":{}
 				},
-				"f3d_lib_dir":"/Users/blackattack/Library/Application Support/Blender/4.5/scripts/addons/fast64-main/fast64_internal/f3d/f3d_material_library.blend/NodeTree"
+				"f3d_lib_dir":"/Users/blackattack/Library/Application Support/Blender/4.5/scripts/addons/fast64-main/fast64_internal/f3d/f3d_material_library.blend/NodeTree",
+				"opLargeTextureProperty":{
+					"mat":{}
+				},
+				"f3d_type":10,
+				"gameEditorMode":2
 			},
 			"name":"Scene",
 			"nodes":[
@@ -320,31 +325,13 @@
 						"set_rendermode":0,
 						"rendermode_advanced_enabled":0,
 						"rendermode_preset_cycle_1":1,
-						"rendermode_preset_cycle_2":1,
-						"aa_en":1,
-						"z_cmp":1,
-						"z_upd":1,
-						"im_rd":1,
-						"clr_on_cvg":0,
-						"cvg_dst":0,
-						"zmode":0,
-						"cvg_x_alpha":0,
-						"alpha_cvg_sel":1,
-						"force_bl":0,
-						"blend_p1":0,
-						"blend_p2":0,
-						"blend_a1":0,
-						"blend_a2":0,
-						"blend_m1":1,
-						"blend_m2":1,
-						"blend_b1":1,
-						"blend_b2":1
+						"rendermode_preset_cycle_2":1
 					},
 					"draw_layer":{
 						"sm64":1,
 						"oot":0
 					},
-					"presetName":"Sm64 Shaded Solid"
+					"presetName":"Custom"
 				},
 				"ootMaterial":{},
 				"objex_bonus":{},
@@ -352,7 +339,7 @@
 				"mat_ver":6,
 				"f3d_update_flag":0
 			},
-			"name":"f3dlite_material",
+			"name":"f3dlite_material.001",
 			"pbrMetallicRoughness":{
 				"baseColorFactor":[
 					1,

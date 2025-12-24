@@ -197,74 +197,10 @@
 						"D_alpha":5
 					},
 					"tex0":{
-						"tex_set":1,
-						"tex":{},
-						"S":{
-							"clamp":false,
-							"mirror":false,
-							"low":0.0,
-							"high":0.0,
-							"mask":5,
-							"shift":0
-						},
-						"T":{
-							"clamp":false,
-							"mirror":false,
-							"low":0.0,
-							"high":0.0,
-							"mask":5,
-							"shift":0
-						},
-						"use_tex_reference":false,
-						"tex_reference":"0x08000000",
-						"tex_reference_size":[
-							32,
-							32
-						],
-						"pal_reference":"0x08000000",
-						"pal_reference_size":16,
-						"menu":false,
-						"autoprop":true,
-						"tile_scroll":{
-							"s":0,
-							"t":0,
-							"interval":1
-						}
+						"tex_set":1
 					},
 					"tex1":{
-						"tex_set":1,
-						"tex":{},
-						"S":{
-							"clamp":false,
-							"mirror":false,
-							"low":0.0,
-							"high":0.0,
-							"mask":5,
-							"shift":0
-						},
-						"T":{
-							"clamp":false,
-							"mirror":false,
-							"low":0.0,
-							"high":0.0,
-							"mask":5,
-							"shift":0
-						},
-						"use_tex_reference":false,
-						"tex_reference":"0x08000000",
-						"tex_reference_size":[
-							32,
-							32
-						],
-						"pal_reference":"0x08000000",
-						"pal_reference_size":16,
-						"menu":false,
-						"autoprop":true,
-						"tile_scroll":{
-							"s":0,
-							"t":0,
-							"interval":1
-						}
+						"tex_set":1
 					},
 					"set_prim":1,
 					"set_lights":1,
@@ -390,122 +326,13 @@
 						"set_rendermode":0,
 						"rendermode_advanced_enabled":0,
 						"rendermode_preset_cycle_1":1,
-						"rendermode_preset_cycle_2":1,
-						"num_textures_mipmapped":2,
-						"prim_depth":{
-							"z":0,
-							"dz":0
-						},
-						"aa_en":false,
-						"z_cmp":false,
-						"z_upd":false,
-						"im_rd":false,
-						"clr_on_cvg":false,
-						"cvg_x_alpha":false,
-						"alpha_cvg_sel":false,
-						"force_bl":false
+						"rendermode_preset_cycle_2":1
 					},
 					"draw_layer":{
 						"sm64":1,
 						"oot":0
 					},
-					"presetName":"Custom",
-					"scale_autoprop":true,
-					"menu_procAnim":false,
-					"UVanim0":{
-						"x":{
-							"speed":1.0,
-							"amplitude":1.0,
-							"frequency":1.0,
-							"spaceFrequency":0.0,
-							"offset":0.0,
-							"noiseAmplitude":1.0,
-							"animate":false
-						},
-						"y":{
-							"speed":1.0,
-							"amplitude":1.0,
-							"frequency":1.0,
-							"spaceFrequency":0.0,
-							"offset":0.0,
-							"noiseAmplitude":1.0,
-							"animate":false
-						},
-						"z":{
-							"speed":1.0,
-							"amplitude":1.0,
-							"frequency":1.0,
-							"spaceFrequency":0.0,
-							"offset":0.0,
-							"noiseAmplitude":1.0,
-							"animate":false
-						},
-						"pivot":[
-							0.0,
-							0.0
-						],
-						"angularSpeed":1.0,
-						"menu":false
-					},
-					"UVanim1":{
-						"x":{
-							"speed":1.0,
-							"amplitude":1.0,
-							"frequency":1.0,
-							"spaceFrequency":0.0,
-							"offset":0.0,
-							"noiseAmplitude":1.0,
-							"animate":false
-						},
-						"y":{
-							"speed":1.0,
-							"amplitude":1.0,
-							"frequency":1.0,
-							"spaceFrequency":0.0,
-							"offset":0.0,
-							"noiseAmplitude":1.0,
-							"animate":false
-						},
-						"z":{
-							"speed":1.0,
-							"amplitude":1.0,
-							"frequency":1.0,
-							"spaceFrequency":0.0,
-							"offset":0.0,
-							"noiseAmplitude":1.0,
-							"animate":false
-						},
-						"pivot":[
-							0.0,
-							0.0
-						],
-						"angularSpeed":1.0,
-						"menu":false
-					},
-					"tex_scale":[
-						1.0,
-						1.0
-					],
-					"set_ambient_from_light":true,
-					"ao_ambient":1.0,
-					"ao_directional":0.625,
-					"ao_point":0.0,
-					"fresnel_lo":0.699999988079071,
-					"fresnel_hi":0.4000000059604645,
-					"attroffs_st":[
-						0.0,
-						0.0
-					],
-					"attroffs_z":-2,
-					"menu_geo":false,
-					"menu_upper":false,
-					"menu_lower":false,
-					"menu_other":false,
-					"menu_lower_render":false,
-					"use_large_textures":false,
-					"expand_cel_shading_ui":false,
-					"use_cel_shading":false,
-					"cel_shading":{}
+					"presetName":"Custom"
 				},
 				"ootMaterial":{},
 				"objex_bonus":{},
@@ -513,7 +340,7 @@
 				"mat_ver":6,
 				"f3d_update_flag":0
 			},
-			"name":"f3dlite_material.002",
+			"name":"f3dlite_material",
 			"pbrMetallicRoughness":{
 				"baseColorFactor":[
 					1,
