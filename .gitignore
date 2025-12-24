@@ -5,8 +5,10 @@ filesystem/
 .vscode/
 .idea/
 
-# Blender backup files
+# nongtlf model files
+*.blend
 *.blend[0-9]
+*glb
 
 .DS_Store
 # IDE files
