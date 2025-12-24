@@ -50,7 +50,15 @@ void Actors::createActors() {
     _animated.escapePlayer1 = _animated.createAnimatedBody(ramModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[1],(T3DVec3){{0.0f, 0.0f, 0.0f}},  JOYPAD_PORT_1);
 
     actorBodys.push_back(
-        _body.createActorBody(juriModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[4])
+        _body.createActorBody(bunnyModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[0])
+    );
+
+    actorBodys.push_back(
+        _body.createActorBody(squirModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[2])
+    );
+
+    actorBodys.push_back(
+        _body.createActorBody(juriModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[7])
     );
 
     actorBodys.push_back(
@@ -58,11 +66,7 @@ void Actors::createActors() {
     );
 
     actorBodys.push_back(
-        _body.createActorBody(bunnyModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[0])
-    );
-
-    actorBodys.push_back(
-        _body.createActorBody(squirModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[2])
+        _body.createActorBody(dwellerModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[6])
     );
 
 }
