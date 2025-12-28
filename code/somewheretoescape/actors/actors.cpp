@@ -8,6 +8,7 @@ void Actors::updateActorsControls() {
 
     _animated.updateAnimatedBodyControls(&_animated.escapePlayer1);
     _animated.updateAnimatedBodyControls(&_animated.escapePlayer2);
+    _animated.updateAnimatedBodyControls(&_animated.escapePlayer3);
 }
 
 void Actors::createActors() {
@@ -49,15 +50,8 @@ void Actors::createActors() {
     float juriScale = 0.064f;
 
     _animated.escapePlayer1 = _animated.createAnimatedBody(ramModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[1],(T3DVec3){{0.0f, 0.0f, 0.0f}},  JOYPAD_PORT_1);
-    _animated.escapePlayer2 = _animated.createAnimatedBody(squirModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[1],(T3DVec3){{0.0f, 0.0f, 0.0f}},  JOYPAD_PORT_2);
-
-    actorBodys.push_back(
-        _body.createActorBody(bunnyModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[0])
-    );
-
-    // actorBodys.push_back(
-    //     _body.createActorBody(squirModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[2])
-    // );
+    _animated.escapePlayer2 = _animated.createAnimatedBody(squirModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[2],(T3DVec3){{0.0f, 0.0f, 0.0f}},  JOYPAD_PORT_2);
+    _animated.escapePlayer3 = _animated.createAnimatedBody(bunnyModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[0],(T3DVec3){{0.0f, 0.0f, 0.0f}},  JOYPAD_PORT_3);
 
     actorBodys.push_back(
         _body.createActorBody(juriModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[7])
@@ -76,9 +70,12 @@ void Actors::createActors() {
 void Actors::drawActors() {
     _animated.render(&_animated.escapePlayer1, _time.deltaTime);
     _animated.render(&_animated.escapePlayer2, _time.deltaTime);
+    _animated.render(&_animated.escapePlayer3, _time.deltaTime);
 
     _animated.drawAnimatedBody(&_animated.escapePlayer1);
     _animated.drawAnimatedBody(&_animated.escapePlayer2);
+    _animated.drawAnimatedBody(&_animated.escapePlayer3);
+
     for (ActorBody actorBody : actorBodys) {
         _body.drawActorBody(&actorBody);
     }

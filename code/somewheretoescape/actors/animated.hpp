@@ -19,7 +19,7 @@ public:
 
 	ComplexBody escapePlayer1;
 	ComplexBody escapePlayer2;
-	//ComplexBody escapePlayer3;
+	ComplexBody escapePlayer3;
 	//ComplexBody enemyPlayer4;
 private:
 	Physics& _physics;
