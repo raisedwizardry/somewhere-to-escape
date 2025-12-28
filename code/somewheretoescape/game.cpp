@@ -37,7 +37,6 @@ void SomewhereToEscapeGame::render() {
 	_physics.stepSimulation(_time.deltaTime);
 	//_physics.stepSimulation();
 
-
 	_time.syncPoint = rspq_syncpoint_new();
 
 	_actors.drawActors();

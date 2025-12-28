@@ -18,7 +18,7 @@ public:
 	void deleteAnimatedBody(ComplexBody *body);
 
 	ComplexBody escapePlayer1;
-	//ComplexBody escapePlayer2;
+	ComplexBody escapePlayer2;
 	//ComplexBody escapePlayer3;
 	//ComplexBody enemyPlayer4;
 private:

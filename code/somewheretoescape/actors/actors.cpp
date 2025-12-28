@@ -7,6 +7,7 @@ void Actors::updateActorsControls() {
     joypad_poll();
 
     _animated.updateAnimatedBodyControls(&_animated.escapePlayer1);
+    _animated.updateAnimatedBodyControls(&_animated.escapePlayer2);
 }
 
 void Actors::createActors() {
@@ -48,14 +49,15 @@ void Actors::createActors() {
     float juriScale = 0.064f;
 
     _animated.escapePlayer1 = _animated.createAnimatedBody(ramModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[1],(T3DVec3){{0.0f, 0.0f, 0.0f}},  JOYPAD_PORT_1);
+    _animated.escapePlayer2 = _animated.createAnimatedBody(squirModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[1],(T3DVec3){{0.0f, 0.0f, 0.0f}},  JOYPAD_PORT_2);
 
     actorBodys.push_back(
         _body.createActorBody(bunnyModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[0])
     );
 
-    actorBodys.push_back(
-        _body.createActorBody(squirModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[2])
-    );
+    // actorBodys.push_back(
+    //     _body.createActorBody(squirModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[2])
+    // );
 
     actorBodys.push_back(
         _body.createActorBody(juriModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[7])
@@ -73,8 +75,10 @@ void Actors::createActors() {
 
 void Actors::drawActors() {
     _animated.render(&_animated.escapePlayer1, _time.deltaTime);
+    _animated.render(&_animated.escapePlayer2, _time.deltaTime);
 
     _animated.drawAnimatedBody(&_animated.escapePlayer1);
+    _animated.drawAnimatedBody(&_animated.escapePlayer2);
     for (ActorBody actorBody : actorBodys) {
         _body.drawActorBody(&actorBody);
     }
