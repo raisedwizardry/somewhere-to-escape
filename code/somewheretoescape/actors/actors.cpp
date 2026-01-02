@@ -60,7 +60,12 @@ void Actors::createActors() {
     actorBodys.push_back(
         _body.createActorBody(dwellerModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[8])
     );
-
+    actorBodys.push_back(
+        _body.createActorBody(dwellerModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[8])
+    );
+    actorBodys.push_back(
+        _body.createActorBody(dwellerModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[8])
+    );
     actorBodys.push_back(
         _body.createActorBody(dwellerModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[6])
     );

@@ -20,7 +20,7 @@ ComplexBody Animated::createAnimatedBody(T3DModel *model, T3DVec3 scale, T3DVec3
         .animAttack = t3d_anim_create(model, "Kick_Swift")
     };
 
-    complexBody.rigidBody = _physics.createCubeRigidBody(complexBody.position.v, defaultSize.v, 20.0f);
+    complexBody.rigidBody = _physics.createCubeRigidBody(complexBody.position.v, defaultSize.v, 1.0f);
 
     complexBody.skeletonBlend = t3d_skeleton_clone(&complexBody.skeleton, false);
 
@@ -87,8 +87,8 @@ void Animated::updateAnimatedBodyControls(ComplexBody *body) {
         body->animBlend = 1.0f;
     }
 
-    float directionalVelocityX = body->movementDirection.v[0] * body->currentSpeed * 10.0f;
-    float directionalVelocityZ = body->movementDirection.v[2] * body->currentSpeed * 10.0f;
+    float directionalVelocityX = body->movementDirection.v[0] * body->currentSpeed * 25.0f;
+    float directionalVelocityZ = body->movementDirection.v[2] * body->currentSpeed * 25.0f;
 
     auto directionalVelocity = (T3DVec3){{directionalVelocityX, 0.0f, directionalVelocityZ}};
 

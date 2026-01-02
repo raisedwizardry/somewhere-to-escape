@@ -5,7 +5,7 @@
 
 class Physics {
     public:
-        Physics(DebugDrawer& drawer): _drawer(drawer) {
+        Physics() {
             setupPhysics();
         }
         ~Physics();
@@ -25,5 +25,5 @@ class Physics {
         btConstraintSolver *solver;
         btDynamicsWorld *dynamicsWorld;
         btRigidBody *groundPlaneBody;
-        DebugDrawer& _drawer;
+        //DebugDrawer& _drawer;
 };

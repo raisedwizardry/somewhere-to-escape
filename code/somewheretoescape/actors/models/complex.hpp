@@ -21,6 +21,7 @@ struct ComplexBody {
     float animBlend = 0.0f;
     bool isAttack = false;
     bool isJump = false;
+    bool isKickMode = false;
     float currentSpeed = 0.0f;
     T3DVec3 movementDirection = (T3DVec3){{0.15f, 0.15f, 0.15f}};
     float attackTimer;

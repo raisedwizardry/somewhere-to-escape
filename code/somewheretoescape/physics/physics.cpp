@@ -23,15 +23,11 @@ void Physics::setupPhysics() {
     solver = new btSequentialImpulseConstraintSolver;
     dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
 
-    dynamicsWorld->setDebugDrawer(&_drawer);
-    dynamicsWorld->getDebugDrawer()->setDebugMode(btIDebugDraw::DBG_DrawWireframe);
-
 	setGravity(btVector3(0.0f, -9.8f, 0.0f));
 }
 
 void Physics::stepSimulation(float deltaTime) {
     dynamicsWorld->stepSimulation(1.f / deltaTime, 10);
-    dynamicsWorld->debugDrawWorld();
 }
 
 void Physics::setGravity(btVector3 gravity) {
@@ -70,7 +66,7 @@ btRigidBody* Physics::createCubeRigidBody(float startingPosition[3], float size[
     dynamicsWorld->addRigidBody(body);
     body->setRestitution(0.3f);
     body->setFriction(0.5f);
-    body->applyTorque(btVector3(1, 1, 5));
+    body->applyTorque(btVector3(0, 0, 0));
 
     body->setAngularVelocity(btVector3(0, 0, 0));
     return body;
