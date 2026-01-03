@@ -37,12 +37,6 @@ $(FILESYSTEM_DIR)/%.font64: $(ASSETS_DIR)/%.ttf
 	@echo "    [FONT] $@"
 	$(N64_MKFONT) $(MKFONT_FLAGS) -o $(dir $@) "$<"
 
-$(FILESYSTEM_DIR)/%.t3dm: $(ASSETS_DIR)/%.glb
-	@mkdir -p $(dir $@)
-	@echo "    [T3D-MODEL] $@"
-	$(T3D_GLTF_TO_3D) $(T3DM_FLAGS) "$<" $@
-	$(N64_BINDIR)/mkasset -c 2 -o $(dir $@) $@
-
 $(FILESYSTEM_DIR)/%.t3dm: $(ASSETS_DIR)/%.gltf
 	@mkdir -p $(dir $@)
 	@echo "    [T3D-MODEL] $@"
