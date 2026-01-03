@@ -1,9 +1,6 @@
 #include <math.h>
-#include <algorithm>
 #include <bullet/btBulletDynamicsCommon.h>
 #include "physics.hpp"
-
-#include "drawer.hpp"
 
 Physics::~Physics() {
     delete dynamicsWorld;

@@ -53,22 +53,22 @@ void Actors::createActors() {
     //_animated.escapePlayer2 = _animated.createAnimatedBody(squirModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[2],(T3DVec3){{0.0f, 0.0f, 0.0f}},  JOYPAD_PORT_2);
     //_animated.escapePlayer3 = _animated.createAnimatedBody(bunnyModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[0],(T3DVec3){{0.0f, 0.0f, 0.0f}},  JOYPAD_PORT_3);
 
-    actorBodys.push_back(
-        _body.createActorBody(juriModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[7])
-    );
+    // actorBodys.push_back(
+    //     _body.createActorBody(juriModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[7])
+    // );
 
-    actorBodys.push_back(
-        _body.createActorBody(dwellerModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[8])
-    );
-    actorBodys.push_back(
-        _body.createActorBody(dwellerModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[8])
-    );
-    actorBodys.push_back(
-        _body.createActorBody(dwellerModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[8])
-    );
-    actorBodys.push_back(
-        _body.createActorBody(dwellerModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[6])
-    );
+    // actorBodys.push_back(
+    //     _body.createActorBody(dwellerModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[8])
+    // );
+    // actorBodys.push_back(
+    //     _body.createActorBody(dwellerModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[8])
+    // );
+    // actorBodys.push_back(
+    //     _body.createActorBody(dwellerModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[8])
+    // );
+    // actorBodys.push_back(
+    //     _body.createActorBody(dwellerModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[6])
+    // );
 
 }
 

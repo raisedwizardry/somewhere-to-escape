@@ -16,7 +16,6 @@ void SomewhereToEscapeGame::updateControls() {
 }
 
 void SomewhereToEscapeGame::setup() {
-	_lifecycle.initSetup();
 	_scene.setupScene();
 
 	_actors.createActors();
@@ -30,6 +29,7 @@ void SomewhereToEscapeGame::render() {
 	updateControls();
 
 	// ======== Draw (3D) ======== //
+
 	_lifecycle.initDraw3d();
 	_scene.updateScene();
 	_scene.drawScene();

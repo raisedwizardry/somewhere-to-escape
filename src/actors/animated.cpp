@@ -3,7 +3,7 @@
 #include <t3d/t3dskeleton.h>
 #include "animated.hpp"
 #include "../physics/bodyMovement.hpp"
-#include "../physics/convertT3D.hpp"
+#include "../physics/convertBullet.hpp"
 
 ComplexBody Animated::createAnimatedBody(T3DModel *model, T3DVec3 scale, T3DVec3 startingPosition, T3DVec3 startingRotation,  joypad_port_t controlPort) {
     ComplexBody complexBody = {
@@ -289,9 +289,9 @@ void Animated::render(ComplexBody *body, float deltaTime) {
 void Animated::drawAnimatedBody(ComplexBody *body) {
     t3d_skeleton_update(&body->skeleton);
 
-    body->position = convertT3D::btVector3ToT3DVec3(_physics.getRigidBodyPosition(body->rigidBody));
+    body->position = convertBullet::btVector3ToT3DVec3(_physics.getRigidBodyPosition(body->rigidBody));
     _physics.setRigidBodyRotation(body->rigidBody, body->rotation.v);
-    //body->rotation = convertT3D::btQuaternionToT3DVec3(_physics.getRigidBodyRotation(body->rigidBody));
+    //body->rotation = convertBullet::btQuaternionToT3DVec3(_physics.getRigidBodyRotation(body->rigidBody));
 
     t3d_mat4fp_from_srt_euler(body->modelMat4FP, body->scale, -body->rotation, body->position);
 

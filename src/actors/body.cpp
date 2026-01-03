@@ -2,7 +2,7 @@
 #include <t3d/t3dmodel.h>
 #include "body.hpp"
 #include "models/actor.hpp"
-#include "../physics/convertT3D.hpp"
+#include "../physics/convertBullet.hpp"
 
 ActorBody Body::createActorBody(T3DModel *model, T3DVec3 scale, T3DVec3 startingPosition) {
     ActorBody actor = {
@@ -28,8 +28,8 @@ ActorBody Body::createActorBody(T3DModel *model, T3DVec3 scale, T3DVec3 starting
 }
 
 void Body::drawActorBody(ActorBody *actor) {
-    actor->position = convertT3D::btVector3ToT3DVec3(_physics.getRigidBodyPosition(actor->rigidBody));
-    actor->rotation = convertT3D::btQuaternionToT3DVec3(_physics.getRigidBodyRotation(actor->rigidBody));
+    actor->position = convertBullet::btVector3ToT3DVec3(_physics.getRigidBodyPosition(actor->rigidBody));
+    actor->rotation = convertBullet::btQuaternionToT3DVec3(_physics.getRigidBodyRotation(actor->rigidBody));
 
     rspq_block_run(actor->dpl);
 

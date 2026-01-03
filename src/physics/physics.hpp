@@ -1,8 +1,6 @@
 #pragma once
 #include <bullet/btBulletDynamicsCommon.h>
 
-#include "drawer.hpp"
-
 class Physics {
     public:
         Physics() {
@@ -25,5 +23,4 @@ class Physics {
         btConstraintSolver *solver;
         btDynamicsWorld *dynamicsWorld;
         btRigidBody *groundPlaneBody;
-        //DebugDrawer& _drawer;
 };

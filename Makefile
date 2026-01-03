@@ -1,46 +1,31 @@
-ROMNAME = somewheretoescape
-ROMTITLE = "Somewhere to Escape"
+PROJECT_NAME = somewheretoescape
+TITLE = "Somewhere to Escape"
 
 BUILD_DIR = build
 ASSETS_DIR = assets
-MINIGAME_DIR = code
 FILESYSTEM_DIR = filesystem
-MINIGAMEDSO_DIR = $(FILESYSTEM_DIR)/minigames
-
-SRC = main.c core.c minigame.c menu.c
-
-filesystem/squarewave.font64: MKFONT_FLAGS += --outline 1 --range all
-
-###
 
 include $(N64_INST)/include/n64.mk
 include $(N64_INST)/include/t3d.mk
 include $(N64_INST)/include/bullet.mk
 
-MINIGAMES_LIST = $(notdir $(wildcard $(MINIGAME_DIR)/*))
-DSO_LIST = $(addprefix $(MINIGAMEDSO_DIR)/, $(addsuffix .dso, $(MINIGAMES_LIST)))
+N64_CXXFLAGS += -std=gnu++20 -Os -fno-exceptions
 
-IMAGE_LIST = $(wildcard $(ASSETS_DIR)/*.png) $(wildcard $(ASSETS_DIR)/core/*.png)
-FONT_LIST  = $(wildcard $(ASSETS_DIR)/*.ttf)
-MODEL_LIST  = $(wildcard $(ASSETS_DIR)/*.glb)
-SOUND_LIST  = $(wildcard $(ASSETS_DIR)/*.wav) $(wildcard $(ASSETS_DIR)/core/*.wav)
-SOUND2_LIST  = $(wildcard $(ASSETS_DIR)/*.mp3) $(wildcard $(ASSETS_DIR)/core/*.mp3)
-MUSIC_LIST  = $(wildcard $(ASSETS_DIR)/*.xm)
-ASSETS_LIST += $(subst $(ASSETS_DIR),$(FILESYSTEM_DIR),$(IMAGE_LIST:%.png=%.sprite))
-ASSETS_LIST += $(subst $(ASSETS_DIR),$(FILESYSTEM_DIR),$(FONT_LIST:%.ttf=%.font64))
-ASSETS_LIST += $(subst $(ASSETS_DIR),$(FILESYSTEM_DIR),$(MODEL_LIST:%.glb=%.t3dm))
-ASSETS_LIST += $(subst $(ASSETS_DIR),$(FILESYSTEM_DIR),$(SOUND_LIST:%.wav=%.wav64))
-ASSETS_LIST += $(subst $(ASSETS_DIR),$(FILESYSTEM_DIR),$(SOUND2_LIST:%.mp3=%.wav64))
-ASSETS_LIST += $(subst $(ASSETS_DIR),$(FILESYSTEM_DIR),$(MUSIC_LIST:%.xm=%.xm64))
+src = $(wildcard src/*.cpp) $(wildcard src/actors/*.cpp) $(wildcard src/actors/models/*.cpp) $(wildcard src/physics/*.cpp) $(wildcard src/scene/*.cpp) $(wildcard src/utility/*.cpp)
 
-ifeq ($(DEBUG), 1)
-	N64_CFLAGS += -g -O0
-	N64_LDFLAGS += -g
-else
-	N64_CFLAGS += -O2
-endif
+assets_png = $(wildcard $(ASSETS_DIR)/*.png)
+assets_gtf = $(wildcard $(ASSETS_DIR)/*.gltf)
+assets_ttf = $(wildcard $(ASSETS_DIR)/*.ttf)
+assets_mp3 = $(wildcard $(ASSETS_DIR)/*.mp3)
+assets_wav = $(wildcard $(ASSETS_DIR)/*.wav)
 
-all: $(ROMNAME).z64
+assets_conv = $(addprefix $(FILESYSTEM_DIR)/,$(notdir $(assets_png:%.png=%.sprite))) \
+			  $(addprefix $(FILESYSTEM_DIR)/,$(notdir $(assets_gtf:%.gltf=%.t3dm))) \
+			  $(addprefix $(FILESYSTEM_DIR)/,$(notdir $(assets_ttf:%.ttf=%.font64))) \
+			  $(addprefix $(FILESYSTEM_DIR)/,$(notdir $(assets_mp3:%.mp3=%.wav64))) \
+			  $(addprefix $(FILESYSTEM_DIR)/,$(notdir $(assets_wav:%.wav=%.wav64))) \
+
+all: $(PROJECT_NAME).z64
 
 $(FILESYSTEM_DIR)/%.sprite: $(ASSETS_DIR)/%.png
 	@mkdir -p $(dir $@)
@@ -64,10 +49,12 @@ $(FILESYSTEM_DIR)/%.t3dm: $(ASSETS_DIR)/%.gltf
 	$(T3D_GLTF_TO_3D) $(T3DM_FLAGS) "$<" $@
 	$(N64_BINDIR)/mkasset -c 2 -o $(dir $@) $@
 
+AUDIOCONV_FLAGS = --wav-resample 22050 --wav-mono
+
 $(FILESYSTEM_DIR)/%.wav64: $(ASSETS_DIR)/%.wav
 	@mkdir -p $(dir $@)
 	@echo "    [SFX] $@"
-	$(N64_AUDIOCONV) $(AUDIOCONV_FLAGS) -o $(dir $@) "$<"
+	$(N64_AUDIOCONV) $(AUDIOCONV_FLAGS) --wav-compress 0 -o $(dir $@) "$<"
 
 $(FILESYSTEM_DIR)/%.wav64: $(ASSETS_DIR)/%.mp3
 	@mkdir -p $(dir $@)
@@ -79,32 +66,15 @@ $(FILESYSTEM_DIR)/%.xm64: $(ASSETS_DIR)/%.xm
 	@echo "    [XM] $@"
 	$(N64_AUDIOCONV) $(AUDIOCONV_FLAGS) -o $(dir $@) "$<"
 
-define MINIGAME_template
-SRC_$(1) = \
-	$$(wildcard $$(MINIGAME_DIR)/$(1)/*.c) \
-	$$(wildcard $$(MINIGAME_DIR)/$(1)/**/*.c) \
-	$$(wildcard $$(MINIGAME_DIR)/$(1)/*.cpp) \
-	$$(wildcard $$(MINIGAME_DIR)/$(1)/**/*.cpp) \
-	$$(wildcard $$(MINIGAME_DIR)/$(1)/**/**/*.cpp)
-$$(MINIGAMEDSO_DIR)/$(1).dso: $$(SRC_$(1):%.cpp=$$(BUILD_DIR)/%.o)
-$$(MINIGAMEDSO_DIR)/$(1).dso: $$(SRC_$(1):%.c=$$(BUILD_DIR)/%.o)
--include $$(MINIGAME_DIR)/$(1)/$(1).mk
-endef
+$(BUILD_DIR)/$(PROJECT_NAME).dfs: $(assets_conv)
+$(BUILD_DIR)/$(PROJECT_NAME).elf: $(src:%.cpp=$(BUILD_DIR)/%.o)
 
-$(foreach minigame, $(MINIGAMES_LIST), $(eval $(call MINIGAME_template,$(minigame))))
-
-MAIN_ELF_EXTERNS := $(BUILD_DIR)/$(ROMNAME).externs
-$(MAIN_ELF_EXTERNS): $(DSO_LIST)
-$(BUILD_DIR)/$(ROMNAME).dfs: $(ASSETS_LIST) $(DSO_LIST)
-$(BUILD_DIR)/$(ROMNAME).elf: $(SRC:%.c=$(BUILD_DIR)/%.o) $(MAIN_ELF_EXTERNS)
-$(ROMNAME).z64: N64_ROM_TITLE=$(ROMTITLE)
-$(ROMNAME).z64: $(BUILD_DIR)/$(ROMNAME).dfs $(BUILD_DIR)/$(ROMNAME).msym
-
-$(BUILD_DIR)/$(ROMNAME).msym: $(BUILD_DIR)/$(ROMNAME).elf
+$(PROJECT_NAME).z64: N64_ROM_TITLE=$(TITLE)
+$(PROJECT_NAME).z64: $(BUILD_DIR)/$(PROJECT_NAME).dfs
 
 clean:
-	rm -rf $(BUILD_DIR) $(FILESYSTEM_DIR) $(DSO_LIST) $(ROMNAME).z64 
+	rm -rf $(BUILD_DIR) $(FILESYSTEM_DIR) $(PROJECT_NAME).z64
 
--include $(wildcard $(BUILD_DIR)/*.d) $(wildcard $(BUILD_DIR)/*/*.d) $(wildcard $(BUILD_DIR)/*/*/*.d) $(wildcard $(BUILD_DIR)/*/*/*/*.d)
+-include $(wildcard $(BUILD_DIR)/src/*.d)
 
 .PHONY: all clean

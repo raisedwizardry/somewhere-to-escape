@@ -1,17 +1,23 @@
-.directory
-build/
-filesystem/
-*.z64
-.vscode/
-.idea/
-
 # nongtlf model files
 *.blend
 *.blend[0-9]
-*glb
+*.glb
 
-.DS_Store
-# IDE files
+#build files and folders
+lib/
+bin/
+build/
+filesystem/
+*.o
+cmake*/
 cmake-*
-.idea
 CMakeLists.txt
+*.z64
+
+# ide files and folders
+.idea/
+.vscode/
+.vs/
+
+# os files
+.DS_Store
