@@ -2,8 +2,11 @@
 #include <t3d/t3dmath.h>
 #include <t3d/t3dskeleton.h>
 #include "animated.hpp"
+#include "../physics/bodyForce.hpp"
 #include "../physics/bodyMovement.hpp"
 #include "../physics/convertBullet.hpp"
+#include "models/actions.hpp"
+#include "../utility/button.hpp"
 
 ComplexBody Animated::createAnimatedBody(T3DModel *model, T3DVec3 scale, T3DVec3 startingPosition, T3DVec3 startingRotation,  joypad_port_t controlPort) {
     ComplexBody complexBody = {
@@ -42,6 +45,10 @@ ComplexBody Animated::createAnimatedBody(T3DModel *model, T3DVec3 scale, T3DVec3
     t3d_anim_set_playing(&complexBody.animJump, false);
     t3d_anim_attach(&complexBody.animJump, &complexBody.skeleton);
 
+    t3d_anim_set_looping(&complexBody.animBackFlip, false);
+    t3d_anim_set_playing(&complexBody.animBackFlip, false);
+    t3d_anim_attach(&complexBody.animBackFlip, &complexBody.skeleton);
+
     t3d_anim_set_looping(&complexBody.animKickSwift, false);
     t3d_anim_set_playing(&complexBody.animKickSwift, false);
     t3d_anim_attach(&complexBody.animKickSwift, &complexBody.skeleton);
@@ -76,110 +83,60 @@ ComplexBody Animated::createAnimatedBody(T3DModel *model, T3DVec3 scale, T3DVec3
 void Animated::updateAnimatedBodyControls(ComplexBody *body) {
     joypad_inputs_t joypadInput = joypad_get_inputs(body->controlPort);
 
-    T3DVec3 newDir = {{
-        (float)joypadInput.stick_x * 0.05f,
-        0,
-        -(float)joypadInput.stick_y * 0.05f
-    }};
-    float speed = sqrtf(t3d_vec3_len2(&newDir));
-
-    // if (joypadInput.btn.b && joypadInput.stick_x < -9) {
-    //     t3d_anim_set_time(&body->animBackFlip, 0.0f);
-    //     t3d_anim_set_playing(&body->animBackFlip, true);
-    // }
-
     if (joypadInput.btn.z && body->isKickMode && body->isHoldingZButton) {
-        // // A + Joystick Up
-        // if (joypadInput.btn.a && joypadInput.stick_x > 9) {
-        //     if (!body->isKicking) {
-        //         // body->isKicking = true;
-        //         // t3d_anim_set_playing(&body->, true);
-        //         // t3d_anim_set_time(&body->, 0.0f);
-        //     }
-        // }
-        // // A + Joystick Down
-        // if (joypadInput.btn.a && joypadInput.stick_x < -9) {
-        //     if (!body->isKicking) {
-        //         // body->isKicking = true;
-        //         // t3d_anim_set_playing(&body->, true);
-        //         // t3d_anim_set_time(&body->, 0.0f);
-        //     }
-        // }
-        // // A + Joystick Neutral
-        // if (joypadInput.btn.a && joypadInput.stick_x < 10 && joypadInput.stick_x > -10) {
-        //     if (!body->isKicking) {
-        //         // body->isKicking = true;
-        //         // t3d_anim_set_playing(&body->, true);
-        //         // t3d_anim_set_time(&body->, 0.0f);
-        //     }
-        // }
-        // // B + Joystick Up
-        // if (joypadInput.btn.b && joypadInput.stick_x > 9) {
-        //     if (!body->isKicking) {
-        //         // body->isKicking = true;
-        //         // t3d_anim_set_playing(&body->, true);
-        //         // t3d_anim_set_time(&body->, 0.0f);
-        //     }
-        // }
-        // // B + Joystick Down = Back Flip
-        // if (joypadInput.btn.b && joypadInput.stick_x < -9) {
-        //     if (!body->isKicking) {
-        //         // body->isKicking = true;
-        //         // t3d_anim_set_playing(&body->, true);
-        //         // t3d_anim_set_time(&body->, 0.0f);
-        //     }
-        // }
-        // // B + Joystick Neutral = Swift Kick
-        // if (joypadInput.btn.b && joypadInput.stick_x < 10 && joypadInput.stick_x > -10) {
-        //     if (!body->isKicking) {
-        //         body->isKicking = true;
-        //         t3d_anim_set_playing(&body->animKickSwift, true);
-        //         t3d_anim_set_time(&body->animKickSwift, 0.0f);
-        //     }
-        // }
-
-        // B + Joystick Neutral = Swift Kick
-        if (joypadInput.btn.b) {
-            if (!body->isKicking) {
-                body->isKicking = true;
-                t3d_anim_set_playing(&body->animKickSwift, true);
-                t3d_anim_set_time(&body->animKickSwift, 0.0f);
+        if (!body->isKicking) {
+            auto button = Button::PriorityButtonQuery(joypadInput.btn);
+            switch (button) {
+                // A = Back Flip
+                case Button::BUTTON_A:
+                    body->isKicking = true;
+                    body->activeKick = Kicks::Kick_Back_Flip;
+                    t3d_anim_set_time(&body->animBackFlip, 0.0f);
+                    t3d_anim_set_playing(&body->animBackFlip, true);
+                    _physics.g
+                    break;
+                // B = Swift Kick
+                case Button::BUTTON_B:
+                    body->isKicking = true;
+                    body->activeKick = Kicks::Kick_Swift;
+                    t3d_anim_set_time(&body->animKickSwift, 0.0f);
+                    t3d_anim_set_playing(&body->animKickSwift, true);
+                    break;
+                // C-Up = Crescent Kick
+                case Button::BUTTON_C_UP:
+                    body->isKicking = true;
+                    body->activeKick = Kicks::Kick_Spin_Crescent;
+                    t3d_anim_set_time(&body->animKickCrescent, 0.0f);
+                    t3d_anim_set_playing(&body->animKickCrescent, true);
+                    break;
+                // C-Right = Heel Kick
+                case Button::BUTTON_C_RIGHT:
+                    body->isKicking = true;
+                    body->activeKick = Kicks::Kick_Spin_Heel;
+                    t3d_anim_set_time(&body->animKickHeel, 0.0f);
+                    t3d_anim_set_playing(&body->animKickHeel, true);
+                    bodyForce::applyForce(body, (T3DVec3){{ 5.0f,5.0f, 5.0f }}, 20.0f);
+                    break;
+                // C-Down = Low Kick
+                case Button::BUTTON_C_DOWN:
+                    body->isKicking = true;
+                    body->activeKick = Kicks::Kick_Spin_Low;
+                    t3d_anim_set_time(&body->animKickLow, 0.0f);
+                    t3d_anim_set_playing(&body->animKickLow, true);
+                    break;
+                // C-Left = Toe Kick
+                case Button::BUTTON_C_LEFT:
+                    body->isKicking = true;
+                    body->activeKick = Kicks::Kick_Toe;
+                    t3d_anim_set_time(&body->animKickToe, 0.0f);
+                    t3d_anim_set_playing(&body->animKickToe, true);
+                    break;
+                case Button::BUTTON_NOPRESS:
+                    break;
+                default:
+                    break;
             }
         }
-        // C-Right = Crescent Kick
-        if (joypadInput.btn.c_up) {
-            if (!body->isKicking) {
-                body->isKicking = true;
-                t3d_anim_set_playing(&body->animKickCrescent, true);
-                t3d_anim_set_time(&body->animKickCrescent, 0.0f);
-            }
-        }
-        // C-Right = Heel Kick
-        if (joypadInput.btn.c_right) {
-            if (!body->isKicking) {
-                body->isKicking = true;
-                t3d_anim_set_playing(&body->animKickHeel, true);
-                t3d_anim_set_time(&body->animKickHeel, 0.0f);
-            }
-        }
-        // C-Down = Low Kick
-        if (joypadInput.btn.c_down) {
-            if (!body->isKicking) {
-                body->isKicking = true;
-                t3d_anim_set_playing(&body->animKickLow, true);
-                t3d_anim_set_time(&body->animKickLow, 0.0f);
-            }
-        }
-        // C-Left = Toe Kick
-        if (joypadInput.btn.c_left) {
-            if (!body->isKicking) {
-                body->isKicking = true;
-                t3d_anim_set_playing(&body->animKickToe, true);
-                t3d_anim_set_time(&body->animKickToe, 0.0f);
-
-            }
-        }
-
     }
     else if (joypadInput.btn.z && body->isKickMode && !body->isHoldingZButton) {
         body->isHoldingZButton = true;
@@ -194,11 +151,8 @@ void Animated::updateAnimatedBodyControls(ComplexBody *body) {
         t3d_anim_set_playing(&body->animKickIdle, false);
     }
 
-    // if (joypadInput.btn.a && !body->animJump.isPlaying && !body->animKickSwift.isPlaying) {
-    //     t3d_anim_set_playing(&body->animJump, true);
-    //     t3d_anim_set_time(&body->animJump, 0.0f);
-    //     body->isJumping = true;
-    // }
+    T3DVec3 newDir = {{(float)joypadInput.stick_x * 0.05f,0.0f,-(float)joypadInput.stick_y * 0.05f}};
+    float speed = sqrtf(t3d_vec3_len2(&newDir));
 
     if (speed > 0.15f && !body->isKicking) {
         newDir.v[0] /= speed;
@@ -214,11 +168,11 @@ void Animated::updateAnimatedBodyControls(ComplexBody *body) {
     }
 
     if (!body->isKickMode && !body->isHoldingZButton) {
-        // body->animBlend = body->currentSpeed / 0.51f;
-        // if (body->animBlend > 1.0f) {
-        //     body->animBlend = 1.0f;
-        //
-        // }
+        body->animBlend = body->currentSpeed / 0.51f;
+        if (body->animBlend > 1.0f) {
+            body->animBlend = 1.0f;
+
+        }
     }
 
     float directionalVelocityX = body->movementDirection.v[0] * body->currentSpeed * 25.0f;
@@ -251,35 +205,68 @@ void Animated::render(ComplexBody *body, float deltaTime) {
     }
 
     if (body->isKicking) {
-        if (body->animKickSwift.isPlaying) {
-            t3d_anim_update(&body->animKickSwift, deltaTime);
-        }
-        else {
-            body->isKicking = false;
-        }
-        if (body->animKickCrescent.isPlaying) {
-            t3d_anim_update(&body->animKickCrescent, deltaTime);
-        }
-        else {
-            body->isKicking = false;
-        }
-        if (body->animKickHeel.isPlaying) {
-            t3d_anim_update(&body->animKickHeel, deltaTime);
-        }
-        else {
-            body->isKicking = false;
-        }
-        if (body->animKickLow.isPlaying) {
-            t3d_anim_update(&body->animKickLow, deltaTime);
-        }
-        else {
-            body->isKicking = false;
-        }
-        if (body->animKickToe.isPlaying) {
-            t3d_anim_update(&body->animKickToe, deltaTime);
-        }
-        else {
-            body->isKicking = false;
+        switch (body->activeKick) {
+            // A = Back Flip
+            case Kicks::Kick_Back_Flip:
+                if (t3d_anim_is_playing(&body->animBackFlip)) {
+                    t3d_anim_update(&body->animBackFlip, deltaTime);
+                }
+                else {
+                    body->isKicking = false;
+                    t3d_anim_set_playing(&body->animBackFlip, false);
+                }
+                break;
+            // B = Swift Kick
+            case Kicks::Kick_Swift:
+                if (t3d_anim_is_playing(&body->animKickSwift)) {
+                    t3d_anim_update(&body->animKickSwift, deltaTime);
+                }
+                else {
+                    body->isKicking = false;
+                    t3d_anim_set_playing(&body->animKickSwift, false);
+                }
+                break;
+            // C-Up = Crescent Kick
+            case Kicks::Kick_Spin_Crescent:
+                if (t3d_anim_is_playing(&body->animKickCrescent)) {
+                    t3d_anim_update(&body->animKickCrescent, deltaTime);
+                }
+                else {
+                    body->isKicking = false;
+                    t3d_anim_set_playing(&body->animKickCrescent, false);
+                }
+                break;
+            // C-Right = Heel Kick
+            case Kicks::Kick_Spin_Heel:
+                if (t3d_anim_is_playing(&body->animKickHeel)) {
+                    t3d_anim_update(&body->animKickHeel, deltaTime);
+                }
+                else {
+                    body->isKicking = false;
+                    t3d_anim_set_playing(&body->animKickHeel, false);
+                }
+                break;
+            // C-Down = Low Kick
+            case Kicks::Kick_Spin_Low:
+                if (t3d_anim_is_playing(&body->animKickLow)) {
+                    t3d_anim_update(&body->animKickLow, deltaTime);
+                }
+                else {
+                    body->isKicking = false;
+                    t3d_anim_set_playing(&body->animKickLow, false);
+                }
+                break;
+            // C-Left = Toe Kick
+            case Kicks::Kick_Toe:
+                if (t3d_anim_is_playing(&body->animKickToe)) {
+                    t3d_anim_update(&body->animKickToe, deltaTime);
+                }
+                else {
+                    body->isKicking = false;
+                    t3d_anim_set_playing(&body->animKickToe, false);}
+                break;
+            default:
+                break;
         }
     }
 

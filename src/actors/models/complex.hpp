@@ -2,8 +2,8 @@
 
 #include <bullet/btBulletDynamicsCommon.h>
 #include <t3d/t3danim.h>
-#include <t3d/t3dmodel.h>
 #include <t3d/t3dskeleton.h>
+#include "actions.hpp"
 
 struct ComplexBody {
     T3DVec3 scale;
@@ -21,7 +21,6 @@ struct ComplexBody {
     T3DAnim animJump;
 
     //T3DAnim animRun;
-
     T3DAnim animKickIdle;
     T3DAnim animKickSwift;
     T3DAnim animKickCrescent;
@@ -32,10 +31,11 @@ struct ComplexBody {
     bool isHoldingZButton = false;
     bool isAbleToKick = false;
     bool isKickMode = false;
+    Kicks activeKick;
+    bool isKicking = false;
     bool isWalking = false;
     bool isRunning = false;
     bool isJumping = false;
-    bool isKicking = false;
     //bool isCrouching = false;
     float currentSpeed = 0.0f;
     T3DVec3 movementDirection = (T3DVec3){{0.15f, 0.15f, 0.15f}};
@@ -44,3 +44,4 @@ struct ComplexBody {
     rspq_block_t *rspBlock;
     btRigidBody *rigidBody;
 };
+

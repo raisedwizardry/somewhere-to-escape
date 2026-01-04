@@ -6,7 +6,7 @@
 namespace bodyMovement {
 
     inline void movement(ComplexBody* body, T3DVec3 directionalVelocity) {
-        body->rigidBody->setLinearVelocity(btVector3(directionalVelocity.v[0], directionalVelocity.v[1], directionalVelocity.v[2]));
+        body->rigidBody->setLinearVelocity(btVector3(directionalVelocity.x, directionalVelocity.y, directionalVelocity.z));
     }
 
     // inline void speedBoost(ComplexBody* body, int8_t amount) {
