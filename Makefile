@@ -9,18 +9,21 @@ include $(N64_INST)/include/n64.mk
 include $(N64_INST)/include/t3d.mk
 include $(N64_INST)/include/bullet.mk
 
-N64_CXXFLAGS += -std=gnu++20 -Os -fno-exceptions
-
-src = $(wildcard src/*.cpp) $(wildcard src/actors/*.cpp) $(wildcard src/actors/models/*.cpp) $(wildcard src/physics/*.cpp) $(wildcard src/scene/*.cpp) $(wildcard src/utility/*.cpp)
+src = $(wildcard src/*.cpp) \
+	$(wildcard src/scene/*.cpp) \
+	$(wildcard src/actors/*.cpp) \
+	$(wildcard src/physics/*.cpp) \
+	$(wildcard src/actors/models/*.cpp) \
+	$(wildcard src/utility/*.cpp)
 
 assets_png = $(wildcard $(ASSETS_DIR)/*.png)
-assets_gtf = $(wildcard $(ASSETS_DIR)/*.gltf)
+assets_gltf = $(wildcard $(ASSETS_DIR)/*.gltf)
 assets_ttf = $(wildcard $(ASSETS_DIR)/*.ttf)
 assets_mp3 = $(wildcard $(ASSETS_DIR)/*.mp3)
 assets_wav = $(wildcard $(ASSETS_DIR)/*.wav)
 
 assets_conv = $(addprefix $(FILESYSTEM_DIR)/,$(notdir $(assets_png:%.png=%.sprite))) \
-			  $(addprefix $(FILESYSTEM_DIR)/,$(notdir $(assets_gtf:%.gltf=%.t3dm))) \
+			  $(addprefix $(FILESYSTEM_DIR)/,$(notdir $(assets_gltf:%.gltf=%.t3dm))) \
 			  $(addprefix $(FILESYSTEM_DIR)/,$(notdir $(assets_ttf:%.ttf=%.font64))) \
 			  $(addprefix $(FILESYSTEM_DIR)/,$(notdir $(assets_mp3:%.mp3=%.wav64))) \
 			  $(addprefix $(FILESYSTEM_DIR)/,$(notdir $(assets_wav:%.wav=%.wav64))) \

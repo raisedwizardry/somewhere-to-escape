@@ -29,7 +29,6 @@ void SomewhereToEscapeGame::render() {
 	updateControls();
 
 	// ======== Draw (3D) ======== //
-
 	_lifecycle.initDraw3d();
 	_scene.updateScene();
 	_scene.drawScene();
