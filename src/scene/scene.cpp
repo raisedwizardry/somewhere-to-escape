@@ -7,10 +7,12 @@ void Scene::setupScene() {
     _lights.setupLighting();
 
     _setting.createSetting();
+
+    _camera.initCamera();
 }
 
 void Scene::updateScene() {
-    _camera.updateCamera(&_camera.viewport);
+    _camera.renderCamera();
 
     t3d_viewport_attach(&_camera.viewport);
 

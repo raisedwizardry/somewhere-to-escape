@@ -1,6 +1,9 @@
-#include <math.h>
 #include <bullet/btBulletDynamicsCommon.h>
 #include "physics.hpp"
+
+#include <libdragon.h>
+#include <GL/gl.h>
+#include <GL/gl_integration.h>
 
 Physics::~Physics() {
     delete dynamicsWorld;
@@ -20,11 +23,27 @@ void Physics::setupPhysics() {
     solver = new btSequentialImpulseConstraintSolver;
     dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
 
-	setGravity(btVector3(0.0f, -9.8f, 0.0f));
+    dynamicsWorld->setDebugDrawer(&_drawer);
+    dynamicsWorld->getDebugDrawer()->setDebugMode(true);
+
+	setGravity(btVector3(0.0f, -9.80665f, 0.0f));
 }
 
 void Physics::stepSimulation(float deltaTime) {
     dynamicsWorld->stepSimulation(1.f / deltaTime, 10);
+    gl_context_begin();
+
+        glPushMatrix();
+        glBegin(GL_LINES);
+
+        dynamicsWorld->debugDrawWorld();
+
+        glEnd();
+        glPopMatrix();
+
+    gl_context_end();
+
+
 }
 
 void Physics::setGravity(btVector3 gravity) {
@@ -32,7 +51,7 @@ void Physics::setGravity(btVector3 gravity) {
 }
 
 void Physics::createGroundRigidBody() {
-    btCollisionShape *groundShape = new btStaticPlaneShape(btVector3(0, 1, 0), 0);
+    btCollisionShape *groundShape = new btStaticPlaneShape(btVector3(0.0f, 1.0f, 0.0f), 1);
 
     btDefaultMotionState *groundMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
 
@@ -42,7 +61,7 @@ void Physics::createGroundRigidBody() {
 
     btRigidBody::btRigidBodyConstructionInfo groundRigidBodyCI(mass, groundMotionState, groundShape, groundInertia);
     groundPlaneBody = new btRigidBody(groundRigidBodyCI);
-    groundPlaneBody->setRestitution(1.0f);
+    groundPlaneBody->setRestitution(0.3f);
     groundPlaneBody->setCollisionFlags(groundPlaneBody->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
     groundPlaneBody->setActivationState(DISABLE_DEACTIVATION);
 
@@ -96,4 +115,14 @@ void Physics::setRigidBodyRotation(btRigidBody *rigidBody, float rotation[3]) {
     trans.setRotation(newBodyRotation);
 
     rigidBody->getMotionState()->setWorldTransform(trans);
+}
+
+void Physics::applyForce(btRigidBody *rigidBody) {
+    btVector3 relativeForce = btVector3(0.0f,20.0f,0);
+    btTransform boxTrans;
+    rigidBody->getMotionState()->getWorldTransform(boxTrans);
+    btVector3 correctedForce = (boxTrans * relativeForce) - boxTrans.getOrigin();
+    // btMatrix3x3& boxRot = rigidBody->getWorldTransform().getBasis();
+    // btVector3 correctedForce = boxRot * relativeForce;
+    rigidBody->applyCentralForce(correctedForce);
 }

@@ -11,12 +11,13 @@
 
 #define TOTAL_BLOCKS    27
 
+class Camera;
 class Time;
 
 class Actors {
     public:
-        Actors(Physics& physics, Animated& animated, Basic& basic, Body& body, Time& time)
-            : _physics(physics) , _animated(animated), _basic(basic) , _body(body) , _time(time) {
+        Actors(Physics& physics, Animated& animated, Basic& basic, Body& body, Time& time, Camera& camera)
+            : _physics(physics) , _animated(animated), _basic(basic) , _body(body) , _time(time), _camera(camera) {
         }
         ~Actors();
         void updateActorsControls();
@@ -29,6 +30,7 @@ class Actors {
         Basic& _basic;
         Body& _body;
         Time& _time;
+        Camera& _camera;
 
         int count = 0;
         std::vector<Actor> actors;

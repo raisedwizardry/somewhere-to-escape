@@ -6,6 +6,7 @@ void SomewhereToEscapeGame::start() {
 
 	for (;;) {
 		render();
+		//exit the loop for quit functionality
 	}
 
     cleanup();
@@ -16,6 +17,10 @@ void SomewhereToEscapeGame::updateControls() {
 }
 
 void SomewhereToEscapeGame::setup() {
+
+	printf("game is starting");
+
+
 	_scene.setupScene();
 
 	_actors.createActors();

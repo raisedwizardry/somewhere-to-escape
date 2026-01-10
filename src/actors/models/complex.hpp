@@ -17,10 +17,7 @@ struct ComplexBody {
     T3DAnim animIdle;
     T3DAnim animBackFlip;
     T3DAnim animWalk;
-
     T3DAnim animJump;
-
-    //T3DAnim animRun;
     T3DAnim animKickIdle;
     T3DAnim animKickSwift;
     T3DAnim animKickCrescent;
@@ -36,9 +33,8 @@ struct ComplexBody {
     bool isWalking = false;
     bool isRunning = false;
     bool isJumping = false;
-    //bool isCrouching = false;
     float currentSpeed = 0.0f;
-    T3DVec3 movementDirection = (T3DVec3){{0.15f, 0.15f, 0.15f}};
+    T3DVec3 movementDirection = (T3DVec3){{0.0f, 0.0f, 0.0f}};
     float attackTimer;
     float jumpTimer;
     rspq_block_t *rspBlock;

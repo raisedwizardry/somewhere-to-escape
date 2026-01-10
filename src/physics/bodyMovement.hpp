@@ -1,7 +1,6 @@
-#pragma once
-
 #include <bullet/btBulletDynamicsCommon.h>
 #include <t3d/t3dmath.h>
+#include "../actors/models/complex.hpp"
 
 namespace bodyMovement {
 
@@ -9,7 +8,9 @@ namespace bodyMovement {
         body->rigidBody->setLinearVelocity(btVector3(directionalVelocity.x, directionalVelocity.y, directionalVelocity.z));
     }
 
-    // inline void speedBoost(ComplexBody* body, int8_t amount) {
-    // }
+    inline void rotation(ComplexBody* body, T3DVec3 angularVelocity) {
+        auto btAngularVelocity = btVector3(angularVelocity.x, angularVelocity.y, angularVelocity.z);
+        body->rigidBody->setAngularVelocity(btAngularVelocity);
+    }
 
 }

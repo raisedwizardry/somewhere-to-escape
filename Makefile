@@ -1,6 +1,8 @@
 PROJECT_NAME = somewheretoescape
 TITLE = "Somewhere to Escape"
 
+N64_EMULATOR := /Applications/ares.app/Contents/MacOS/ares
+
 BUILD_DIR = build
 ASSETS_DIR = assets
 FILESYSTEM_DIR = filesystem
@@ -68,6 +70,9 @@ $(BUILD_DIR)/$(PROJECT_NAME).elf: $(src:%.cpp=$(BUILD_DIR)/%.o)
 
 $(PROJECT_NAME).z64: N64_ROM_TITLE=$(TITLE)
 $(PROJECT_NAME).z64: $(BUILD_DIR)/$(PROJECT_NAME).dfs
+
+run: $(ROM_NAME).z64
+	$(N64_EMULATOR) $(ROM_NAME).z64
 
 clean:
 	rm -rf $(BUILD_DIR) $(FILESYSTEM_DIR) $(PROJECT_NAME).z64

@@ -13,7 +13,7 @@ ActorBody Body::createActorBody(T3DModel *model, T3DVec3 scale, T3DVec3 starting
         .modelMat = (T3DMat4FP*)malloc_uncached(sizeof(T3DMat4FP)),
     };
 
-    T3DVec3 size = (T3DVec3){{16.0f,16.0f, 16.0f}};
+    T3DVec3 size = (T3DVec3){{4.0f,4.0f, 4.0f}};
     actor.rigidBody = _physics.createCubeRigidBody(startingPosition.v, size.v, 1.0f);
 
     rspq_block_begin();

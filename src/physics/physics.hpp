@@ -1,9 +1,12 @@
 #pragma once
 #include <bullet/btBulletDynamicsCommon.h>
+#include "drawer.hpp"
+
+#define USE_PHYSICS_DEBUG_DRAW 1
 
 class Physics {
     public:
-        Physics() {
+        Physics(DebugDrawer& drawer): _drawer(drawer) {
             setupPhysics();
         }
         ~Physics();
@@ -15,6 +18,7 @@ class Physics {
         btQuaternion getRigidBodyRotation(btRigidBody *rigidBody);
         void setRigidBodyRotation(btRigidBody *rigidBody, float rotation[3]);
         void createGroundRigidBody();
+        void applyForce(btRigidBody *rigidBody);
 
     private:
         btCollisionConfiguration *collisionConfiguration;
@@ -23,4 +27,6 @@ class Physics {
         btConstraintSolver *solver;
         btDynamicsWorld *dynamicsWorld;
         btRigidBody *groundPlaneBody;
+
+        DebugDrawer& _drawer;
 };

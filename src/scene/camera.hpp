@@ -4,9 +4,17 @@
 
 class Camera {
     public:
-        void updateCamera(T3DViewport *viewport, T3DVec3 target = {{0,0.15f,0}});
+        void initCamera();
+        void renderCamera();
+
         T3DViewport viewport;
+        T3DVec3 cameraPosition = {{0.0f, 0.0f, 0.0f}};
+        T3DVec3 cameraTarget = {{0.0f, 0.0f,0.0f}};
+        T3DVec3 cameraUp = {{0.0f, 0.0f,0.0f}};
+        float degreeOfFov = 0.0f;
+        float near = 0.0f;
+        float far = 0.0f;
     private:
-        T3DVec3 camPos = {{0, 45.0f, 80.0f}};
-        T3DVec3 camTarget = {{0, 0,-10}};
+        void t3dRender();
+        void openGlRender();
 };

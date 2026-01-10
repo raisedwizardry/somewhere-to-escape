@@ -23,5 +23,4 @@ public:
 	//ComplexBody enemyPlayer4;
 private:
 	Physics& _physics;
-	T3DVec3 defaultSize = (T3DVec3){{ 9.0f, 9.0f, 9.0f}};
 };

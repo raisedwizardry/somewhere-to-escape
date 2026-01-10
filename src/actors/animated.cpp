@@ -8,6 +8,19 @@
 #include "models/actions.hpp"
 #include "../utility/button.hpp"
 
+void Animated::drawAnimatedBody(ComplexBody *body) {
+    t3d_skeleton_update(&body->skeleton);
+
+    body->position = convertBullet::btVector3ToT3DVec3(_physics.getRigidBodyPosition(body->rigidBody));
+    //_physics.setRigidBodyRotation(body->rigidBody, body->rotation.v);
+    body->rotation = convertBullet::btQuaternionToT3DVec3(_physics.getRigidBodyRotation(body->rigidBody));
+
+    body->position.v[1] = body->position.v[1] - 8.25f;
+    t3d_mat4fp_from_srt_euler(body->modelMat4FP, body->scale, -body->rotation, body->position);
+
+    rspq_block_run(body->rspBlock);
+}
+
 ComplexBody Animated::createAnimatedBody(T3DModel *model, T3DVec3 scale, T3DVec3 startingPosition, T3DVec3 startingRotation,  joypad_port_t controlPort) {
     ComplexBody complexBody = {
         .scale = scale,
@@ -17,6 +30,7 @@ ComplexBody Animated::createAnimatedBody(T3DModel *model, T3DVec3 scale, T3DVec3
         .modelMat4FP = (T3DMat4FP*)malloc_uncached(sizeof(T3DMat4FP)),
         .color = RGBA32(255, 255, 255, 255),
         .skeleton = t3d_skeleton_create(model),
+
         .animIdle = t3d_anim_create(model, "Idle_Stand"),
         .animBackFlip = t3d_anim_create(model, "Kick_Back_Flip"),
         .animWalk = t3d_anim_create(model, "Walk"),
@@ -29,7 +43,9 @@ ComplexBody Animated::createAnimatedBody(T3DModel *model, T3DVec3 scale, T3DVec3
         .animKickToe = t3d_anim_create(model, "Kick_Toe")
     };
 
-    complexBody.rigidBody = _physics.createCubeRigidBody(complexBody.position.v, defaultSize.v, 1.0f);
+    T3DVec3 defaultSize = (T3DVec3){{ 2.75f, 7.25f, 2.75f}};
+
+    complexBody.rigidBody = _physics.createCubeRigidBody(complexBody.position.v, defaultSize.v, 10.0f);
 
     complexBody.skeletonBlend = t3d_skeleton_clone(&complexBody.skeleton, false);
 
@@ -37,8 +53,6 @@ ComplexBody Animated::createAnimatedBody(T3DModel *model, T3DVec3 scale, T3DVec3
 
     t3d_anim_attach(&complexBody.animWalk, &complexBody.skeletonBlend);
 
-    t3d_anim_set_looping(&complexBody.animKickIdle, true);
-    t3d_anim_set_playing(&complexBody.animKickIdle, false);
     t3d_anim_attach(&complexBody.animKickIdle, &complexBody.skeleton);
 
     t3d_anim_set_looping(&complexBody.animJump, false);
@@ -77,6 +91,8 @@ ComplexBody Animated::createAnimatedBody(T3DModel *model, T3DVec3 scale, T3DVec3
         t3d_matrix_pop(1);
     complexBody.rspBlock = rspq_block_end();
 
+    t3d_mat4fp_from_srt_euler(complexBody.modelMat4FP, complexBody.scale, complexBody.rotation, complexBody.position);
+
     return complexBody;
 }
 
@@ -93,7 +109,6 @@ void Animated::updateAnimatedBodyControls(ComplexBody *body) {
                     body->activeKick = Kicks::Kick_Back_Flip;
                     t3d_anim_set_time(&body->animBackFlip, 0.0f);
                     t3d_anim_set_playing(&body->animBackFlip, true);
-                    _physics.g
                     break;
                 // B = Swift Kick
                 case Button::BUTTON_B:
@@ -115,7 +130,7 @@ void Animated::updateAnimatedBodyControls(ComplexBody *body) {
                     body->activeKick = Kicks::Kick_Spin_Heel;
                     t3d_anim_set_time(&body->animKickHeel, 0.0f);
                     t3d_anim_set_playing(&body->animKickHeel, true);
-                    bodyForce::applyForce(body, (T3DVec3){{ 5.0f,5.0f, 5.0f }}, 20.0f);
+                    //bodyForce::applyForce(body, (T3DVec3){{ 5.0f,5.0f, 5.0f }}, 20.0f);
                     break;
                 // C-Down = Low Kick
                 case Button::BUTTON_C_DOWN:
@@ -181,6 +196,8 @@ void Animated::updateAnimatedBodyControls(ComplexBody *body) {
     auto directionalVelocity = (T3DVec3){{directionalVelocityX, 0.0f, directionalVelocityZ}};
 
     bodyMovement::movement(body, directionalVelocity);
+    //float angularVelocity = directionalVelocity.v. / 1.75;  ;
+    //bodyMovement::rotation(body, angularVelocity);
 }
 
 void Animated::render(ComplexBody *body, float deltaTime) {
@@ -195,15 +212,6 @@ void Animated::render(ComplexBody *body, float deltaTime) {
         t3d_anim_set_speed(&body->animWalk, body->animBlend + 0.15f);
         t3d_anim_update(&body->animWalk, deltaTime);
     }
-    if (body->isJumping) {
-        if (!body->animJump.isPlaying) {
-            t3d_anim_update(&body->animJump, deltaTime);
-        }
-        else {
-            body->isJumping = false;
-        }
-    }
-
     if (body->isKicking) {
         switch (body->activeKick) {
             // A = Back Flip
@@ -230,6 +238,9 @@ void Animated::render(ComplexBody *body, float deltaTime) {
             case Kicks::Kick_Spin_Crescent:
                 if (t3d_anim_is_playing(&body->animKickCrescent)) {
                     t3d_anim_update(&body->animKickCrescent, deltaTime);
+                }
+                else if (t3d_anim_get_time(&body->animKickCrescent) == 1.0f) {
+                    t3d_anim_set_playing(&body->animKickCrescent, false);
                 }
                 else {
                     body->isKicking = false;
@@ -261,6 +272,9 @@ void Animated::render(ComplexBody *body, float deltaTime) {
                 if (t3d_anim_is_playing(&body->animKickToe)) {
                     t3d_anim_update(&body->animKickToe, deltaTime);
                 }
+                // else if (t3d_anim_get_time(&body->animKickToe) == 0.f) {
+                //
+                // }
                 else {
                     body->isKicking = false;
                     t3d_anim_set_playing(&body->animKickToe, false);}
@@ -270,20 +284,10 @@ void Animated::render(ComplexBody *body, float deltaTime) {
         }
     }
 
-    t3d_skeleton_blend(&body->skeleton, &body->skeleton, &body->skeletonBlend, body->animBlend);
+    t3d_skeleton_blend(&body->skeleton, &body->skeleton, &body->skeletonBlend, 0.0f);
 }
 
-void Animated::drawAnimatedBody(ComplexBody *body) {
-    t3d_skeleton_update(&body->skeleton);
 
-    body->position = convertBullet::btVector3ToT3DVec3(_physics.getRigidBodyPosition(body->rigidBody));
-    _physics.setRigidBodyRotation(body->rigidBody, body->rotation.v);
-    //body->rotation = convertBullet::btQuaternionToT3DVec3(_physics.getRigidBodyRotation(body->rigidBody));
-
-    t3d_mat4fp_from_srt_euler(body->modelMat4FP, body->scale, -body->rotation, body->position);
-
-    rspq_block_run(body->rspBlock);
-}
 
 void Animated::deleteAnimatedBody(ComplexBody *body) {
     t3d_skeleton_destroy(&body->skeleton);
