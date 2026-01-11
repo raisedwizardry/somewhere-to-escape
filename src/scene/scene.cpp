@@ -9,9 +9,12 @@ void Scene::setupScene() {
     _setting.createSetting();
 
     _camera.initCamera();
+
+    _sound.setupSounds();
 }
 
 void Scene::updateScene() {
+    _camera.updateControls();
     _camera.renderCamera();
 
     t3d_viewport_attach(&_camera.viewport);

@@ -2,6 +2,7 @@
 #include "game.hpp"
 
 void SomewhereToEscapeGame::start() {
+
 	setup();
 
 	for (;;) {
@@ -13,6 +14,8 @@ void SomewhereToEscapeGame::start() {
 }
 
 void SomewhereToEscapeGame::updateControls() {
+	joypad_poll();
+
 	_actors.updateActorsControls();
 }
 
@@ -34,15 +37,20 @@ void SomewhereToEscapeGame::render() {
 	updateControls();
 
 	// ======== Draw (3D) ======== //
+	mixer_try_play();
+
 	_lifecycle.initDraw3d();
+
 	_scene.updateScene();
 	_scene.drawScene();
 
 	_physics.stepSimulation();
-
-	_time.syncPoint = rspq_syncpoint_new();
+	mixer_try_play();
 
 	_actors.drawActors();
+	mixer_try_play();
+
+	_time.syncPoint = rspq_syncpoint_new();
 
 	// ======== Draw (UI) ======== //
 	_lifecycle.drawUi();

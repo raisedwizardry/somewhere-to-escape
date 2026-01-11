@@ -6,8 +6,6 @@
 #include "../scene/time.hpp"
 
 void Actors::updateActorsControls() {
-    joypad_poll();
-
     _animated.updateAnimatedBodyControls(&_animated.escapePlayer1);
     _animated.updateAnimatedBodyControls(&_animated.escapePlayer2);
     //_animated.updateAnimatedBodyControls(&_animated.escapePlayer3);
@@ -75,10 +73,13 @@ void Actors::createActors() {
 }
 
 void Actors::drawActors() {
-    _animated.render(&_animated.escapePlayer1, _time.deltaTime);
+    mixer_try_play();
 
-    _camera.cameraTarget = _animated.escapePlayer1.position;
-    _camera.cameraPosition = (T3DVec3){{_animated.escapePlayer1.position.x, 25.0f, _animated.escapePlayer1.position.z + 60.0f}};
+    _animated.render(&_animated.escapePlayer1, _time.deltaTime);
+    if (!_camera.isWorldCamera) {
+        _camera.cameraTarget = _animated.escapePlayer1.position;
+        _camera.cameraPosition = (T3DVec3){{_animated.escapePlayer1.position.x, 25.0f, _animated.escapePlayer1.position.z - 60.0f}};
+    }
 
     _animated.render(&_animated.escapePlayer2, _time.deltaTime);
     //_animated.render(&_animated.escapePlayer3, _time.deltaTime);

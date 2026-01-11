@@ -4,8 +4,11 @@
 
 class Camera {
     public:
+
         void initCamera();
         void renderCamera();
+        void updateControls();
+        bool isWorldCamera = false;
 
         T3DViewport viewport;
         T3DVec3 cameraPosition = {{0.0f, 0.0f, 0.0f}};
@@ -15,6 +18,7 @@ class Camera {
         float near = 0.0f;
         float far = 0.0f;
     private:
+        bool isHoldingLAndR = false;
         void t3dRender();
         void openGlRender();
 };
