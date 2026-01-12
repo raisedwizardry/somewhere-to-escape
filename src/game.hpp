@@ -6,14 +6,15 @@
 #include "scene/scene.hpp"
 #include "actors/actors.hpp"
 #include "utility/lifecycle.hpp"
+#include "scene/action.hpp"
 
 #define TARGET_FRAME_TIME_MS 33.33                                         // milliseconds for 30 FPS
 #define TARGET_FRAME_TIME (TARGET_FRAME_TIME_MS * TICKS_PER_SECOND / 1000) // converting milliseconds to ticks - TICKS_PER_SECOND is defined in libdragon
 
 class SomewhereToEscapeGame {
     public:
-        SomewhereToEscapeGame(Physics& physics, Lifecycle& lifecycle, Time& time, Scene& scene, Actors& actors)
-            : _physics(physics) , _lifecycle(lifecycle) , _time(time) , _scene(scene) , _actors(actors) {
+        SomewhereToEscapeGame(Physics& physics, Lifecycle& lifecycle, Time& time, Scene& scene, Actors& actors, Action& action)
+            : _physics(physics) , _lifecycle(lifecycle) , _time(time) , _scene(scene) , _actors(actors), _action(action) {
         }
         void start();
     private:
@@ -22,7 +23,7 @@ class SomewhereToEscapeGame {
         Time& _time;
         Scene& _scene;
         Actors& _actors;
-
+        Action& _action;
         void updateControls();
         void setup();
         void render();

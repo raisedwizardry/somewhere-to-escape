@@ -13,8 +13,18 @@ void Scene::setupScene() {
     _sound.setupSounds();
 }
 
+void Scene::updateControls() {
+    for (size_t i = 0; i < TOTAL_PLAYERS; i++) {
+        joypad_port_t port = Button::ports[i];
+        currentPort = port;
+        joypad_inputs_t joypadInput = joypad_get_inputs(port);
+        _action.updateControls(joypadInput);
+
+        _camera.updateControls(joypadInput);
+    }
+}
+
 void Scene::updateScene() {
-    _camera.updateControls();
     _camera.renderCamera();
 
     t3d_viewport_attach(&_camera.viewport);

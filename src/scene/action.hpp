@@ -1,15 +1,14 @@
 #pragma once
-
-#include "time.hpp"
+#include "../utility/button.hpp"
 
 class Action {
     public:
-        Action(Time& time)
-            : _time(time) {
+        Action() {
         }
-        void pause();
-        void quietOnTheSet();
-        void cut();
+        void updateControls(joypad_inputs_t joypadInput);
+        bool isPaused = false;
+        void checkForUnpause();
     private:
-        Time& _time;
+        bool isPausedMode = false;
+        bool isHoldingStart = false;
 };

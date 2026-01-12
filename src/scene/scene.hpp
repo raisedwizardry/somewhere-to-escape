@@ -5,6 +5,9 @@
 #include "lights.hpp"
 #include "action.hpp"
 #include "sound.hpp"
+#include "../utility/button.hpp"
+
+#define TOTAL_PLAYERS 4
 
 class Scene {
     public:
@@ -12,8 +15,10 @@ class Scene {
             : _setting(setting) , _lights(lights) , _camera(camera) , _action(action), _sound(sound) {
         }
         void setupScene();
+        void updateControls();
         void updateScene();
         void drawScene();
+        joypad_port_t currentPort = Button::ports[0];
     private:
         Setting& _setting;
         Lights& _lights;

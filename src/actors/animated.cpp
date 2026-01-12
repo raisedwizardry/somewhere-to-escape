@@ -169,7 +169,7 @@ void Animated::updateAnimatedBodyControls(ComplexBody *body) {
     T3DVec3 newDir = {{(float)joypadInput.stick_x * 0.05f,0.0f,-(float)joypadInput.stick_y * 0.05f}};
     float speed = sqrtf(t3d_vec3_len2(&newDir));
 
-    if (speed > 0.15f && !body->isKicking) {
+    if (speed > 0.15f) {
         newDir.v[0] /= speed;
         newDir.v[2] /= speed;
         body->movementDirection = newDir;
@@ -182,18 +182,16 @@ void Animated::updateAnimatedBodyControls(ComplexBody *body) {
         body->currentSpeed *= 0.8f;
     }
 
-    if (!body->isKickMode && !body->isHoldingZButton) {
-        body->animBlend = body->currentSpeed / 0.51f;
-        if (body->animBlend > 1.0f) {
-            body->animBlend = 1.0f;
+    body->animBlend = body->currentSpeed / 0.51f;
+    if (body->animBlend > 1.0f) {
+        body->animBlend = 1.0f;
 
-        }
     }
 
     float directionalVelocityX = body->movementDirection.v[0] * body->currentSpeed * 25.0f;
     float directionalVelocityZ = body->movementDirection.v[2] * body->currentSpeed * 25.0f;
 
-    auto directionalVelocity = (T3DVec3){{directionalVelocityX, 0.0f, directionalVelocityZ}};
+    auto directionalVelocity = (T3DVec3){{-directionalVelocityX, 0.0f, -directionalVelocityZ}};
 
     bodyMovement::movement(body, directionalVelocity);
     //float angularVelocity = directionalVelocity.v. / 1.75;  ;

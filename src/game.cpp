@@ -6,7 +6,13 @@ void SomewhereToEscapeGame::start() {
 	setup();
 
 	for (;;) {
-		render();
+
+		if (_action.isPaused) {
+			_action.checkForUnpause();
+		}
+		else {
+			render();
+		}
 		//exit the loop for quit functionality
 	}
 
@@ -16,14 +22,13 @@ void SomewhereToEscapeGame::start() {
 void SomewhereToEscapeGame::updateControls() {
 	joypad_poll();
 
+	_scene.updateControls();
+
 	_actors.updateActorsControls();
+
 }
 
 void SomewhereToEscapeGame::setup() {
-
-	printf("game is starting");
-
-
 	_scene.setupScene();
 
 	_actors.createActors();
@@ -42,6 +47,8 @@ void SomewhereToEscapeGame::render() {
 	_lifecycle.initDraw3d();
 
 	_scene.updateScene();
+	mixer_try_play();
+
 	_scene.drawScene();
 
 	_physics.stepSimulation();

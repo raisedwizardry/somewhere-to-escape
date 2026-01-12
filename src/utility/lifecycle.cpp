@@ -20,12 +20,7 @@ void Lifecycle::initSetup() {
     mixer_init(32);
 
     dfs_init(DFS_DEFAULT_LOCATION);
-    console_init();
-    console_set_debug(1);
-
-    display_close();
     display_init(RESOLUTION_320x240, DEPTH_16_BPP, FB_COUNT, GAMMA_NONE, FILTERS_RESAMPLE_ANTIALIAS);
-
 
     rdpq_init();
     //rdpq_debug_start();

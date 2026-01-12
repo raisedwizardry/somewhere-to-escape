@@ -24,7 +24,7 @@ void Physics::setupPhysics() {
     dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
 
     dynamicsWorld->setDebugDrawer(&_drawer);
-    dynamicsWorld->getDebugDrawer()->setDebugMode(true);
+    dynamicsWorld->getDebugDrawer()->setDebugMode(btIDebugDraw::DBG_DrawWireframe);
 
 	setGravity(btVector3(0.0f, -9.80665f, 0.0f));
 }
@@ -99,7 +99,6 @@ btVector3 Physics::getRigidBodyPosition(btRigidBody *rigidBody) {
 
 btQuaternion Physics::getRigidBodyRotation(btRigidBody *rigidBody) {
     btTransform trans;
-
     rigidBody->getMotionState()->getWorldTransform(trans);
 
     btQuaternion rot = trans.getRotation();

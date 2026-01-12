@@ -1,4 +1,7 @@
 #pragma once
+
+#include <libdragon.h>
+
 namespace Button {
 
     enum Button {
@@ -17,6 +20,13 @@ namespace Button {
         BUTTON_C_LEFT,  ///< @brief C-Left button
         BUTTON_C_RIGHT,  ///< @brief C-Right button
         BUTTON_NOPRESS,  ///< @brief No Button pressed
+    };
+
+    inline joypad_port_t ports[] = {
+        JOYPAD_PORT_1,
+        JOYPAD_PORT_2,
+        JOYPAD_PORT_3,
+        JOYPAD_PORT_4
     };
 
     inline Button PriorityButtonQuery(joypad_buttons_t input) {

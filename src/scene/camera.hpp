@@ -7,7 +7,7 @@ class Camera {
 
         void initCamera();
         void renderCamera();
-        void updateControls();
+        void updateControls(joypad_inputs_t joypadInput);
         bool isWorldCamera = false;
 
         T3DViewport viewport;

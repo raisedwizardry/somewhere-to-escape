@@ -15,8 +15,7 @@ void Camera::initCamera() {
     far = 150.0f;
 }
 
-void Camera::updateControls() {
-    joypad_inputs_t joypadInput = joypad_get_inputs(JOYPAD_PORT_1);
+void Camera::updateControls(joypad_inputs_t joypadInput) {
     if (joypadInput.btn.l && joypadInput.btn.r && joypadInput.btn.b) {
         isWorldCamera = false;
         isHoldingLAndR = false;
