@@ -1,15 +1,11 @@
 #pragma once
 
-#include <t3d/t3d.h>
 #include "physics/physics.hpp"
 #include "scene/time.hpp"
 #include "scene/scene.hpp"
 #include "actors/actors.hpp"
 #include "utility/lifecycle.hpp"
 #include "scene/action.hpp"
-
-#define TARGET_FRAME_TIME_MS 33.33                                         // milliseconds for 30 FPS
-#define TARGET_FRAME_TIME (TARGET_FRAME_TIME_MS * TICKS_PER_SECOND / 1000) // converting milliseconds to ticks - TICKS_PER_SECOND is defined in libdragon
 
 class SomewhereToEscapeGame {
     public:

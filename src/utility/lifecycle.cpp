@@ -4,7 +4,7 @@
 #include <GL/gl.h>
 #include <GL/gl_integration.h>
 #include <t3d/t3danim.h>
-
+#include "../debugmode.cpp"
 
 void Lifecycle::initSetup() {
     debug_init_isviewer();
@@ -25,7 +25,9 @@ void Lifecycle::initSetup() {
     rdpq_init();
     //rdpq_debug_start();
 
-    gl_init();
+    if (PHYSICS_DEBUG) {
+        gl_init();
+    }
 
     rdpq_text_register_font(FONT_BUILTIN_DEBUG_MONO, rdpq_font_load_builtin(FONT_BUILTIN_DEBUG_MONO));
 
@@ -37,8 +39,10 @@ void Lifecycle::initSetup() {
 void Lifecycle::initDraw3d() {
     rdpq_attach(display_get(), display_get_zbuf());
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    if (PHYSICS_DEBUG) {
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+    }
 
     t3d_frame_start();
 
@@ -49,51 +53,55 @@ void Lifecycle::initDraw3d() {
 
 void Lifecycle::drawUi() {
     float posX = 8;
-    float posX1 = 16;
-    float posX2 = 24;
-    float posX3 = 40;
-    float posX4 = 56;
-    float otherPosX = 32;
-    float posY = 16;
-    float otherPosY1 = 64;
-    float otherPosY2 = 80;
-    float otherPosY3 = 96;
-    float otherPosY4 = 112;
-    float otherPosY5 = 128;
-    float otherPosY6 = 144;
-    float otherPosY7 = 160;
-    float otherPosY8 = 176;
-    float otherPosY9 = 192;
-    float otherPosY10 = 210;
-    float otherPosY11 = 226;
-    float otherPosY12 = 234;
+    if (SHOW_FPS) {
+        float posY = 16;
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, posY, "FPS: %.2f", display_get_fps());
+    }
+    if (ONSCREEN_DEBUG) {
+        // float posX1 = 16;
+        // float posX2 = 24;
+        // float posX3 = 40;
+        // float posX4 = 56;
+        float otherPosX = 32;
+        float otherPosY1 = 64;
+        float otherPosY2 = 80;
+        float otherPosY3 = 96;
+        float otherPosY4 = 112;
+        float otherPosY5 = 128;
+        float otherPosY6 = 144;
+        float otherPosY7 = 160;
+        float otherPosY8 = 176;
+        float otherPosY9 = 192;
+        float otherPosY10 = 210;
+        float otherPosY11 = 226;
+        float otherPosY12 = 234;
 
-    rdpq_sync_pipe();
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY1, "rX:");
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY1, std::to_string(_animated.escapePlayer1.rotation.x).c_str() );
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY2, "rY:");
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY2, std::to_string(_animated.escapePlayer1.rotation.y).c_str() );
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY3, "rZ:");
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY3, std::to_string(_animated.escapePlayer1.rotation.z).c_str() );
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY4, "pX:");
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY4, std::to_string(_animated.escapePlayer1.position.x).c_str() );
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY5, "pY:");
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY5, std::to_string(_animated.escapePlayer1.position.y).c_str() );
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY6, "pZ:");
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY6, std::to_string(_animated.escapePlayer1.position.z).c_str() );
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY7, "7:");
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY7, std::to_string(t3d_anim_get_time(&_animated.escapePlayer1.animKickCrescent)).c_str() );
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY8, "8:");
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY8, "Debug");
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY9, "9:");
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY9, "Debug");
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY10, "10:");
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY10, "Debug");
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY11, "11:");
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY11, "Debug");
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY12, "12:");
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY12, "Debug");
-    rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, posY, "FPS: %.2f", display_get_fps());
+        rdpq_sync_pipe();
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY1, "rX:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY1, std::to_string(_animated.escapePlayer1.rotation.x).c_str() );
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY2, "rY:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY2, std::to_string(_animated.escapePlayer1.rotation.y).c_str() );
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY3, "rZ:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY3, std::to_string(_animated.escapePlayer1.rotation.z).c_str() );
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY4, "pX:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY4, std::to_string(_animated.escapePlayer1.position.x).c_str() );
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY5, "pY:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY5, std::to_string(_animated.escapePlayer1.position.y).c_str() );
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY6, "pZ:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY6, std::to_string(_animated.escapePlayer1.position.z).c_str() );
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY7, "7:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY7, std::to_string(t3d_anim_get_time(&_animated.escapePlayer1.animKickCrescent)).c_str() );
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY8, "8:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY8, "Debug");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY9, "9:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY9, "Debug");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY10, "10:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY10, "Debug");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY11, "11:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY11, "Debug");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY12, "12:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY12, "Debug");
+    }
 
     rdpq_detach_show();
 }

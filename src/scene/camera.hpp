@@ -2,6 +2,8 @@
 
 #include <t3d/t3d.h>
 
+#define DEGREE_OF_ROTATION 0.125f
+
 class Camera {
     public:
 
@@ -21,4 +23,8 @@ class Camera {
         bool isHoldingLAndR = false;
         void t3dRender();
         void openGlRender();
+
+        static float getPositionalXByDegree(float x, float z, float degree);
+        float getPositionalZByDegree(float x, float z, float degree);
+
 };

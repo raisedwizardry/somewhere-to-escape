@@ -5,6 +5,8 @@ void SomewhereToEscapeGame::start() {
 
 	setup();
 
+
+
 	for (;;) {
 
 		if (_action.isPaused) {

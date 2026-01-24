@@ -4,6 +4,7 @@
 #include <t3d/t3dmath.h>
 #include <GL/glu.h>
 #include "../utility/button.hpp"
+#include "../debugmode.cpp"
 
 void Camera::initCamera() {
     cameraPosition = {{0.0f, 25.0f, 70.0f}};
@@ -16,47 +17,50 @@ void Camera::initCamera() {
 }
 
 void Camera::updateControls(joypad_inputs_t joypadInput) {
-    if (joypadInput.btn.l && joypadInput.btn.r && joypadInput.btn.b) {
-        isWorldCamera = false;
-        isHoldingLAndR = false;
+    if (joypadInput.stick_y > 20) {
+        cameraPosition.z +=2.0f;
+        cameraTarget.z += 2.0f;
     }
-    else if (joypadInput.btn.l && joypadInput.btn.r && isWorldCamera && !isHoldingLAndR) {
-        isHoldingLAndR = true;
+    if (joypadInput.stick_y < -20) {
+        cameraPosition.z -=2.0f;
+        cameraTarget.z -= 2.0f;
     }
-    else if (joypadInput.btn.l && joypadInput.btn.r && !isWorldCamera && !isHoldingLAndR) {
-        isWorldCamera = true;
+    if (joypadInput.stick_x < -20) {
+        cameraPosition.x += 2.0f;
+        cameraTarget.x += 2.0f;
     }
-
-    if (isWorldCamera && isHoldingLAndR) {
-        auto button = Button::PriorityButtonQuery(joypadInput.btn);
-        switch (button) {
-            case Button::BUTTON_D_UP:
-                cameraPosition.y += 2.0f;
-                cameraTarget.y += 2.0f;
-                break;
-            case Button::BUTTON_D_LEFT:
-                cameraPosition.x += 2.0f;
-                cameraTarget.x += 2.0f;
-                break;
-            case Button::BUTTON_D_DOWN:
-                cameraPosition.y -= 2.0f;
-                cameraTarget.y -= 2.0f;
-                break;
-            case Button::BUTTON_D_RIGHT:
-                cameraPosition.x -= 2.0f;
-                cameraTarget.x -= 2.0f;
-                break;
-            case Button::BUTTON_NOPRESS:
-                break;
-            default:
-                break;
-        }
+    if (joypadInput.stick_x > 20) {
+        cameraPosition.x -= 2.0f;
+        cameraTarget.x -= 2.0f;
+    }
+    auto button = Button::PriorityButtonQuery(joypadInput.btn);
+    switch (button) {
+        case Button::BUTTON_D_UP:
+            cameraPosition.y += 2.0f;
+            cameraTarget.y += 2.0f;
+            break;
+        case Button::BUTTON_D_LEFT:
+            cameraTarget.x = getPositionalXByDegree(cameraTarget.x, cameraTarget.z, -DEGREE_OF_ROTATION);
+            cameraTarget.z = getPositionalZByDegree(cameraTarget.x, cameraTarget.z, -DEGREE_OF_ROTATION);
+            break;
+        case Button::BUTTON_D_DOWN:
+            cameraPosition.y -= 2.0f;
+            cameraTarget.y -= 2.0f;
+            break;
+        case Button::BUTTON_D_RIGHT:
+            cameraTarget.x = getPositionalXByDegree(cameraTarget.x, cameraTarget.z, DEGREE_OF_ROTATION);
+            cameraTarget.z = getPositionalZByDegree(cameraTarget.x, cameraTarget.z, DEGREE_OF_ROTATION);
+            break;
+        default:
+            break;
     }
 }
 
 void Camera::renderCamera() {
     t3dRender();
-    openGlRender();
+    if (PHYSICS_DEBUG) {
+        openGlRender();
+    }
 }
 
 void Camera::t3dRender() {
@@ -69,4 +73,12 @@ void Camera::openGlRender() {
     gluLookAt(cameraPosition.x, cameraPosition.y, cameraPosition.z,
             cameraTarget.x, cameraTarget.y, cameraTarget.z,
                cameraUp.x, cameraUp.y, cameraUp.z);
+}
+
+float Camera::getPositionalXByDegree(float x, float z, float degree) {
+    return x * cos(degree) - z * sin(degree);
+}
+
+float Camera::getPositionalZByDegree(float x, float z, float degree) {
+    return x * sin(degree) + z * cos(degree);
 }

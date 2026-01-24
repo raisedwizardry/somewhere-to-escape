@@ -1,9 +1,9 @@
 #include <bullet/btBulletDynamicsCommon.h>
 #include "physics.hpp"
-
 #include <libdragon.h>
 #include <GL/gl.h>
 #include <GL/gl_integration.h>
+#include "../debugmode.cpp"
 
 Physics::~Physics() {
     delete dynamicsWorld;
@@ -22,27 +22,29 @@ void Physics::setupPhysics() {
     broadphase = new btDbvtBroadphase();
     solver = new btSequentialImpulseConstraintSolver;
     dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
-
-    dynamicsWorld->setDebugDrawer(&_drawer);
-    dynamicsWorld->getDebugDrawer()->setDebugMode(btIDebugDraw::DBG_DrawWireframe);
+    if (PHYSICS_DEBUG) {
+        dynamicsWorld->setDebugDrawer(&_drawer);
+        dynamicsWorld->getDebugDrawer()->setDebugMode(btIDebugDraw::DBG_DrawWireframe);
+    }
 
 	setGravity(btVector3(0.0f, -9.80665f, 0.0f));
 }
 
 void Physics::stepSimulation(float deltaTime) {
     dynamicsWorld->stepSimulation(1.f / deltaTime, 10);
-    gl_context_begin();
+    if (PHYSICS_DEBUG) {
+        gl_context_begin();
 
-        glPushMatrix();
-        glBegin(GL_LINES);
+            glPushMatrix();
+            glBegin(GL_LINES);
 
-        dynamicsWorld->debugDrawWorld();
+            dynamicsWorld->debugDrawWorld();
 
-        glEnd();
-        glPopMatrix();
+            glEnd();
+            glPopMatrix();
 
-    gl_context_end();
-
+        gl_context_end();
+    }
 
 }
 

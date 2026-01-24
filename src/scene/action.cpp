@@ -6,6 +6,7 @@ void Action::checkForUnpause() {
         joypad_port_t port = Button::ports[i];
         joypad_inputs_t joypadInput = joypad_get_inputs(port);
         if (joypadInput.btn.start && isPaused) {
+            isPausedMode = false;
             isPaused = false;
         }
     }

@@ -2,8 +2,6 @@
 #include <bullet/btBulletDynamicsCommon.h>
 #include "drawer.hpp"
 
-#define USE_PHYSICS_DEBUG_DRAW 1
-
 class Physics {
     public:
         Physics(DebugDrawer& drawer): _drawer(drawer) {
