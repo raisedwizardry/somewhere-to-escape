@@ -1,12 +1,15 @@
 #pragma once
 
 #include <t3d/t3d.h>
+#include "../debugmode.hpp"
 
 #define DEGREE_OF_ROTATION 0.125f
 
 class Camera {
     public:
-
+        Camera(DebugMode& debug)
+            : _debug(debug) {
+        }
         void initCamera();
         void renderCamera();
         void updateControls(joypad_inputs_t joypadInput);
@@ -26,5 +29,7 @@ class Camera {
 
         static float getPositionalXByDegree(float x, float z, float degree);
         float getPositionalZByDegree(float x, float z, float degree);
+
+        DebugMode& _debug;
 
 };

@@ -1,10 +1,11 @@
 #pragma once
 #include <bullet/btBulletDynamicsCommon.h>
 #include "drawer.hpp"
+#include "../debugmode.hpp"
 
 class Physics {
     public:
-        Physics(DebugDrawer& drawer): _drawer(drawer) {
+        Physics(DebugDrawer& drawer, DebugMode& debug): _drawer(drawer) , _debug(debug) {
             setupPhysics();
         }
         ~Physics();
@@ -27,4 +28,5 @@ class Physics {
         btRigidBody *groundPlaneBody;
 
         DebugDrawer& _drawer;
+        DebugMode& _debug;
 };

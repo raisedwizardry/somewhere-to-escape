@@ -4,7 +4,6 @@
 #include <t3d/t3dmath.h>
 #include <GL/glu.h>
 #include "../utility/button.hpp"
-#include "../debugmode.cpp"
 
 void Camera::initCamera() {
     cameraPosition = {{0.0f, 25.0f, 70.0f}};
@@ -58,7 +57,7 @@ void Camera::updateControls(joypad_inputs_t joypadInput) {
 
 void Camera::renderCamera() {
     t3dRender();
-    if (PHYSICS_DEBUG) {
+    if (_debug.PHYSICS_DEBUG) {
         openGlRender();
     }
 }

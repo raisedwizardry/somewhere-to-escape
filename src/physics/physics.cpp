@@ -3,7 +3,6 @@
 #include <libdragon.h>
 #include <GL/gl.h>
 #include <GL/gl_integration.h>
-#include "../debugmode.cpp"
 
 Physics::~Physics() {
     delete dynamicsWorld;
@@ -22,7 +21,7 @@ void Physics::setupPhysics() {
     broadphase = new btDbvtBroadphase();
     solver = new btSequentialImpulseConstraintSolver;
     dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
-    if (PHYSICS_DEBUG) {
+    if (_debug.PHYSICS_DEBUG) {
         dynamicsWorld->setDebugDrawer(&_drawer);
         dynamicsWorld->getDebugDrawer()->setDebugMode(btIDebugDraw::DBG_DrawWireframe);
     }
@@ -32,7 +31,7 @@ void Physics::setupPhysics() {
 
 void Physics::stepSimulation(float deltaTime) {
     dynamicsWorld->stepSimulation(1.f / deltaTime, 10);
-    if (PHYSICS_DEBUG) {
+    if (_debug.PHYSICS_DEBUG) {
         gl_context_begin();
 
             glPushMatrix();

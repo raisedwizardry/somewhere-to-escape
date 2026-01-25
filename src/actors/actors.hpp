@@ -8,6 +8,8 @@
 #include "models/actor.hpp"
 #include "body.hpp"
 #include "basic.hpp"
+#include "../debugmode.hpp"
+
 
 #define TOTAL_BLOCKS    27
 
@@ -16,8 +18,8 @@ class Time;
 
 class Actors {
     public:
-        Actors(Physics& physics, Animated& animated, Basic& basic, Body& body, Time& time, Camera& camera)
-            : _physics(physics) , _animated(animated), _basic(basic) , _body(body) , _time(time), _camera(camera) {
+        Actors(Physics& physics, Animated& animated, Basic& basic, Body& body, Time& time, Camera& camera, DebugMode& debug)
+            : _physics(physics) , _animated(animated), _basic(basic) , _body(body) , _time(time) , _camera(camera) , _debug(debug) {
         }
         ~Actors();
         void updateActorsControls();
@@ -31,6 +33,7 @@ class Actors {
         Body& _body;
         Time& _time;
         Camera& _camera;
+        DebugMode& _debug;
 
         int count = 0;
         std::vector<Actor> actors;

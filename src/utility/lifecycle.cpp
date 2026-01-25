@@ -4,7 +4,6 @@
 #include <GL/gl.h>
 #include <GL/gl_integration.h>
 #include <t3d/t3danim.h>
-#include "../debugmode.cpp"
 
 void Lifecycle::initSetup() {
     debug_init_isviewer();
@@ -25,11 +24,12 @@ void Lifecycle::initSetup() {
     rdpq_init();
     //rdpq_debug_start();
 
-    if (PHYSICS_DEBUG) {
+    if (_debug.PHYSICS_DEBUG) {
         gl_init();
     }
 
     rdpq_text_register_font(FONT_BUILTIN_DEBUG_MONO, rdpq_font_load_builtin(FONT_BUILTIN_DEBUG_MONO));
+    //rdpq_text_register_font(3, rdpq_font_load("rom:/Drybrush.font64"));
 
     joypad_init();
 
@@ -39,7 +39,7 @@ void Lifecycle::initSetup() {
 void Lifecycle::initDraw3d() {
     rdpq_attach(display_get(), display_get_zbuf());
 
-    if (PHYSICS_DEBUG) {
+    if (_debug.PHYSICS_DEBUG) {
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
     }
@@ -53,11 +53,11 @@ void Lifecycle::initDraw3d() {
 
 void Lifecycle::drawUi() {
     float posX = 8;
-    if (SHOW_FPS) {
+    if (_debug.SHOW_FPS) {
         float posY = 16;
         rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, posY, "FPS: %.2f", display_get_fps());
     }
-    if (ONSCREEN_DEBUG) {
+    if (_debug.ONSCREEN_DEBUG) {
         // float posX1 = 16;
         // float posX2 = 24;
         // float posX3 = 40;

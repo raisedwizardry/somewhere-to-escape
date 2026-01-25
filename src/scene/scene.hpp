@@ -6,13 +6,14 @@
 #include "action.hpp"
 #include "sound.hpp"
 #include "../utility/button.hpp"
+#include "../debugmode.hpp"
 
 #define TOTAL_PLAYERS 4
 
 class Scene {
     public:
-        Scene(Setting& setting, Lights& lights, Camera& camera, Action& action, Sound& sound)
-            : _setting(setting) , _lights(lights) , _camera(camera) , _action(action), _sound(sound) {
+        Scene(Setting& setting, Lights& lights, Camera& camera, Action& action, Sound& sound, DebugMode& debug)
+            : _setting(setting) , _lights(lights) , _camera(camera) , _action(action) , _sound(sound), _debug(debug) {
         }
         void setupScene();
         void updateControls();
@@ -25,4 +26,5 @@ class Scene {
         Camera& _camera;
         Action& _action;
         Sound& _sound;
+        DebugMode& _debug;
 };

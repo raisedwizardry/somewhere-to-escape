@@ -1,9 +1,7 @@
-#include <t3d/t3dmodel.h>
 #include "actors.hpp"
 #include "../scene/camera.hpp"
 #include "./models/actor.hpp"
 #include "../scene/time.hpp"
-#include "../debugmode.cpp"
 
 void Actors::updateActorsControls() {
     _animated.updateAnimatedBodyControls(&_animated.escapePlayer1);
@@ -69,7 +67,7 @@ void Actors::createActors() {
      //     _body.createActorBody(dwellerModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[6])
      // );
 
-    if (P4_CAMERA_DEBUG) {
+    if (_debug.P4_CAMERA_DEBUG) {
         _camera.cameraTarget = _animated.escapePlayer1.position;
         _camera.cameraPosition = (T3DVec3){{_animated.escapePlayer1.position.x, 25.0f, _animated.escapePlayer1.position.z + 60.0f}};
     }
@@ -80,7 +78,7 @@ void Actors::drawActors() {
     mixer_try_play();
 
     _animated.render(&_animated.escapePlayer1, _time.deltaTime);
-    if (!P4_CAMERA_DEBUG) {
+    if (!_debug.P4_CAMERA_DEBUG) {
         _camera.cameraTarget = _animated.escapePlayer1.position;
         _camera.cameraPosition = (T3DVec3){{_animated.escapePlayer1.position.x, 25.0f, _animated.escapePlayer1.position.z - 60.0f}};
     }

@@ -9,17 +9,18 @@
 
 class SomewhereToEscapeGame {
     public:
-        SomewhereToEscapeGame(Physics& physics, Lifecycle& lifecycle, Time& time, Scene& scene, Actors& actors, Action& action)
-            : _physics(physics) , _lifecycle(lifecycle) , _time(time) , _scene(scene) , _actors(actors), _action(action) {
+        SomewhereToEscapeGame(Lifecycle& lifecycle, Physics& physics, Time& time, Scene& scene, Actors& actors, Action& action)
+            : _lifecycle(lifecycle) , _physics(physics) , _time(time) , _scene(scene) , _actors(actors), _action(action) {
         }
         void start();
     private:
-        Physics& _physics;
         Lifecycle& _lifecycle;
+        Physics& _physics;
         Time& _time;
         Scene& _scene;
         Actors& _actors;
         Action& _action;
+
         void updateControls();
         void setup();
         void render();

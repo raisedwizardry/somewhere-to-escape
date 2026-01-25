@@ -1,6 +1,5 @@
 #include <t3d/t3d.h>
 #include "scene.hpp"
-#include "../debugmode.cpp"
 
 void Scene::setupScene() {
     _camera.viewport = t3d_viewport_create();
@@ -21,7 +20,7 @@ void Scene::updateControls() {
         joypad_inputs_t joypadInput = joypad_get_inputs(port);
         _action.updateControls(joypadInput);
 
-        if (currentPort == JOYPAD_PORT_4 && P4_CAMERA_DEBUG) {
+        if (currentPort == JOYPAD_PORT_4 && _debug.P4_CAMERA_DEBUG) {
             _camera.updateControls(joypadInput);
         }
     }
