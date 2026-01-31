@@ -6,7 +6,8 @@ void Menu::mainMenu() {
     _sound.switchSoundByTuneId(MENU, 0);
     auto textParams = (rdpq_textparms_t){
         .width = 320,
-        .align = ALIGN_CENTER
+        .align = ALIGN_CENTER,
+        .char_spacing = 2
     };
     rdpq_text_print(&textParams, 3, 0, 65, "Somewhere to Escape");
     rdpq_text_print(&textParams, 3, 0, 80, "by");
@@ -22,7 +23,7 @@ void Menu::selectCharacter() {
     disp = display_get();
     _sound.switchSoundByTuneId(SELECTION, 0);
     graphics_fill_screen(disp, graphics_convert_color(RGBA32(100, 0, 200, 0)));
-    graphics_draw_sprite_trans(disp, 0, 0, ramHead);
+    graphics_draw_sprite_trans(disp, 0, 0, squirHead);
     graphics_draw_text(disp, 160, 60, "Ram");
     display_show(disp);
 }
