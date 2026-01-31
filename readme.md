@@ -25,4 +25,3 @@ The game uses these C/C++ projects
 - [Blender](https://www.blender.org/) - 3D modeling software
 - [Fast64](https://github.com/Fast-64/fast64) - blender plugin used for model exporting and material formating
 - [Aesprite](https://www.aseprite.org/) - tool for creating sprites and textures
-- [Logic Pro](https://www.apple.com/logic-pro/) - Digital Audio Workstation for mac created by apple
