@@ -1,7 +1,7 @@
 #pragma once
 
 #include <t3d/t3d.h>
-#include "../debugmode.hpp"
+#include "../utility/debugmode.hpp"
 
 #define DEGREE_OF_ROTATION 0.125f
 

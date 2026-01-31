@@ -14,12 +14,12 @@ void Lifecycle::initSetup() {
 
     timer_init();
 
-    audio_init(32000, 3);
+    audio_init(44100, 3);
 
     mixer_init(32);
 
     dfs_init(DFS_DEFAULT_LOCATION);
-    display_init(RESOLUTION_320x240, DEPTH_16_BPP, FB_COUNT, GAMMA_NONE, FILTERS_RESAMPLE_ANTIALIAS);
+    //display_init(RESOLUTION_320x240, DEPTH_16_BPP, FB_COUNT, GAMMA_NONE, FILTERS_RESAMPLE);
 
     rdpq_init();
     //rdpq_debug_start();
@@ -29,7 +29,7 @@ void Lifecycle::initSetup() {
     }
 
     rdpq_text_register_font(FONT_BUILTIN_DEBUG_MONO, rdpq_font_load_builtin(FONT_BUILTIN_DEBUG_MONO));
-    //rdpq_text_register_font(3, rdpq_font_load("rom:/Drybrush.font64"));
+    rdpq_text_register_font(3, rdpq_font_load("rom:/Drybrush.font64"));
 
     joypad_init();
 

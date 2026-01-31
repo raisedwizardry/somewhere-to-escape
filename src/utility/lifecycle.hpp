@@ -2,7 +2,7 @@
 
 #include "../actors/animated.hpp"
 #include "../scene/action.hpp"
-#include "../debugmode.hpp"
+#include "debugmode.hpp"
 
 #define FB_COUNT 3
 

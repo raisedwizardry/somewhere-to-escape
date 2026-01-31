@@ -2,6 +2,8 @@
 #include "scene.hpp"
 
 void Scene::setupScene() {
+    _sound.switchSoundByTuneId(RUNAWAY, 0);
+
     _camera.viewport = t3d_viewport_create();
 
     _lights.setupLighting();
@@ -9,8 +11,6 @@ void Scene::setupScene() {
     _setting.createSetting();
 
     _camera.initCamera();
-
-    _sound.setupSounds();
 }
 
 void Scene::updateControls() {

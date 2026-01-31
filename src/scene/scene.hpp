@@ -6,7 +6,7 @@
 #include "action.hpp"
 #include "sound.hpp"
 #include "../utility/button.hpp"
-#include "../debugmode.hpp"
+#include "../utility/debugmode.hpp"
 
 #define TOTAL_PLAYERS 4
 

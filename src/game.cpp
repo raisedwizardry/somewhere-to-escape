@@ -2,32 +2,53 @@
 #include "game.hpp"
 #include <libdragon.h>
 
+void checkForSkip(void *ctx, int frame_idx, float time_sec, fmv_control_t *ctrl) {
+	joypad_poll();
+	joypad_buttons_t btn = joypad_get_buttons_pressed(JOYPAD_PORT_1);
+
+	if (btn.start) {
+		ctrl->stop(ctrl);
+	}
+}
+
+bool isStartGame() {
+	joypad_poll();
+	joypad_buttons_t btn = joypad_get_buttons_pressed(JOYPAD_PORT_1);
+
+	if (btn.start) {
+		return true;
+	}
+	return false;
+}
+
 void SomewhereToEscapeGame::start() {
-	sprite_t *mario = sprite_load("rom://ram-headshot-s.sprite");
-	sprite_t *border = sprite_load("rom://border.sprite");
+	video_register_codec(&mpeg1_codec);
+
+	auto params = (fmv_parms_t){
+		.disable_subtitles = true,
+		.osd_callback = checkForSkip
+	};
+	fmv_play("rom://logo.m1v", &params);
+
+	display_init(RESOLUTION_320x240, DEPTH_16_BPP, FB_COUNT, GAMMA_NONE, FILTERS_RESAMPLE);
 
 	for (;;) {
-		static display_context_t disp = 0;
-		disp = display_get();
-		graphics_fill_screen(disp, graphics_convert_color(RGBA32(100, 0, 100, 0)));
+		_menu.mainMenu();
+		mixer_try_play();
 
-		//graphics_draw_sprite(  );
-		//graphics_draw_sprite_trans(disp, 20, 150, mario);
-		//graphics_draw_sprite_trans(disp, 150, 150, mario);
-		graphics_draw_sprite_trans(disp, 20, 150, border);
-		display_show(disp);
-
-		joypad_poll();
-		joypad_port_t port = JOYPAD_PORT_1;
-		joypad_inputs_t joypadInput = joypad_get_inputs(port);
-		auto buttonPress = Button::PriorityButtonQuery(joypadInput.btn);
-		if (buttonPress == Button::BUTTON_A) {
+		if (isStartGame()) {
 			break;
 		}
 	}
 
+	for (;;) {
+		_menu.selectCharacter();
+		mixer_try_play();
 
-
+		if (isStartGame()) {
+			break;
+		}
+	}
 
 	setup();
 

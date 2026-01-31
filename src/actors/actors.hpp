@@ -8,7 +8,7 @@
 #include "models/actor.hpp"
 #include "body.hpp"
 #include "basic.hpp"
-#include "../debugmode.hpp"
+#include "../utility/debugmode.hpp"
 
 
 #define TOTAL_BLOCKS    27
@@ -42,6 +42,6 @@ class Actors {
         T3DModel *juriModel = t3d_model_load("rom:/juri.t3dm");
         T3DModel *dwellerModel = t3d_model_load("rom:/dweller.t3dm");
         T3DModel *ramModel = t3d_model_load("rom:/ram.t3dm");
-        T3DModel *bunnyModel = t3d_model_load("rom:/bunny.t3dm");
-        T3DModel *squirModel = t3d_model_load("rom:/squir.t3dm");
+        //T3DModel *bunnyModel = t3d_model_load("rom:/bunny.t3dm");
+        //T3DModel *squirModel = t3d_model_load("rom:/squir.t3dm");
 };

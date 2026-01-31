@@ -1,7 +1,7 @@
 #pragma once
 #include <bullet/btBulletDynamicsCommon.h>
 #include "drawer.hpp"
-#include "../debugmode.hpp"
+#include "../utility/debugmode.hpp"
 
 class Physics {
     public:

@@ -15,6 +15,7 @@ src = $(wildcard src/*.cpp) \
 	$(wildcard src/scene/*.cpp) \
 	$(wildcard src/actors/*.cpp) \
 	$(wildcard src/physics/*.cpp) \
+	$(wildcard src/menu/*.cpp) \
 	$(wildcard src/actors/models/*.cpp) \
 	$(wildcard src/utility/*.cpp)
 
@@ -29,6 +30,7 @@ assets_conv = $(addprefix $(FILESYSTEM_DIR)/,$(notdir $(assets_png:%.png=%.sprit
 			  $(addprefix $(FILESYSTEM_DIR)/,$(notdir $(assets_ttf:%.ttf=%.font64))) \
 			  $(addprefix $(FILESYSTEM_DIR)/,$(notdir $(assets_mp3:%.mp3=%.wav64))) \
 			  $(addprefix $(FILESYSTEM_DIR)/,$(notdir $(assets_wav:%.wav=%.wav64))) \
+			  $(FILESYSTEM_DIR)/logo.m1v
 
 all: $(PROJECT_NAME).z64
 
@@ -64,6 +66,11 @@ $(FILESYSTEM_DIR)/%.xm64: $(ASSETS_DIR)/%.xm
 	@mkdir -p $(dir $@)
 	@echo "    [XM] $@"
 	$(N64_AUDIOCONV) $(AUDIOCONV_FLAGS) -o $(dir $@) "$<"
+
+$(FILESYSTEM_DIR)/logo.m1v: $(ASSETS_DIR)/logo.m1v
+	@mkdir -p $(dir $@)
+	@echo "    [VIDEO] $@"
+	cp $(ASSETS_DIR)/logo.m1v $(FILESYSTEM_DIR)/logo.m1v
 
 $(BUILD_DIR)/$(PROJECT_NAME).dfs: $(assets_conv)
 $(BUILD_DIR)/$(PROJECT_NAME).elf: $(src:%.cpp=$(BUILD_DIR)/%.o)
