@@ -4,17 +4,16 @@
 #include "models/actor.hpp"
 #include "../physics/convertBullet.hpp"
 
-ActorBody Body::createActorBody(T3DModel *model, T3DVec3 scale, T3DVec3 startingPosition) {
+ActorBody Body::createActorBody(T3DModel *model, T3DVec3 scale, T3DVec3 startingPosition, T3DVec3 startingRotation, T3DVec3 size, float mass) {
     ActorBody actor = {
         .id = _counter.getIncrementedId(),
         .scale = scale,
         .position = startingPosition,
-        .rotation = (T3DVec3){{0.0f, 0.0f, 0.0f}},
+        .rotation = startingRotation,
         .modelMat = (T3DMat4FP*)malloc_uncached(sizeof(T3DMat4FP)),
     };
 
-    T3DVec3 size = (T3DVec3){{4.0f,4.0f, 4.0f}};
-    actor.rigidBody = _physics.createCubeRigidBody(startingPosition.v, size.v, 1.0f);
+    actor.rigidBody = _physics.createCubeRigidBody(startingPosition.v, size.v, mass);
 
     rspq_block_begin();
         t3d_matrix_push(actor.modelMat);

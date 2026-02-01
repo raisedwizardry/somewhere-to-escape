@@ -44,7 +44,9 @@ void Actors::createActors() {
         (T3DVec3){{-32.0f, 64.0f, -32.0f}}
     };
 
-    float juriScale = 0.015625f;
+    float scale64 = 0.015625f;
+    auto defaultScale = (T3DVec3){{scale64, scale64, scale64}};
+    auto defaultRotation = (T3DVec3){{0.0f, 0.0f, 0.0f}};
     float nScale = 0.11f;
 
     switch (selectedCharacter) {
@@ -59,7 +61,7 @@ void Actors::createActors() {
             Player1ModelToUse = t3d_model_load("rom:/ram.t3dm");
             break;
     }
-    _animated.escapePlayer1 = _animated.createAnimatedBody(Player1ModelToUse, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[0],(T3DVec3){{0.0f, 0.0f, 0.0f}},  JOYPAD_PORT_1);
+    _animated.escapePlayer1 = _animated.createAnimatedBody(Player1ModelToUse, defaultScale, blockPositions[0], defaultRotation,  JOYPAD_PORT_1);
 
      // actorBodys.push_back(
      //     _body.createActorBody(juriModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[5])
@@ -73,16 +75,21 @@ void Actors::createActors() {
      // actorBodys.push_back(
      //     _body.createActorBody(dwellerModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[7])
      // );
-    actorBodys.push_back(
-        _body.createActorBody(nModel, (T3DVec3){{nScale, nScale, nScale}}, blockPositions[6])
-    );
-    actorBodys.push_back(
-        _body.createActorBody(caveModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[8])
-    );
 
     actorBodys.push_back(
-        _body.createActorBody(markerModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[2])
+        _body.createActorBody(nModel, (T3DVec3){{nScale, nScale, nScale}}, blockPositions[6], defaultRotation, (T3DVec3){{4.0f, 4.0f, 4.0f}}, 20.0f)
     );
+
+    auto caveLocation = (T3DVec3){{40.0f, 0.0f, 320.0f}};
+    auto caveSize = (T3DVec3){{12.0f, 25.0f, 40.0f}};
+
+    actorBodys.push_back(
+        _body.createActorBody(caveModel, defaultScale, caveLocation, defaultRotation,caveSize, 0.0f)
+    );
+
+    // actorBodys.push_back(
+    //     _body.createActorBody(markerModel, defaultScale, blockPositions[2])
+    // );
 
     if (_debug.P4_CAMERA_DEBUG) {
         _camera.cameraTarget = _animated.escapePlayer1.position;

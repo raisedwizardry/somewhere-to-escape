@@ -12,11 +12,11 @@ void Animated::drawAnimatedBody(ComplexBody *body) {
     t3d_skeleton_update(&body->skeleton);
 
     body->position = convertBullet::btVector3ToT3DVec3(_physics.getRigidBodyPosition(body->rigidBody));
-    //_physics.setRigidBodyRotation(body->rigidBody, body->rotation.v);
-    body->rotation = convertBullet::btQuaternionToT3DVec3(_physics.getRigidBodyRotation(body->rigidBody));
+    _physics.setRigidBodyRotation(body->rigidBody, body->rotation.v);
+    //body->rotation = convertBullet::btQuaternionToT3DVec3(_physics.getRigidBodyRotation(body->rigidBody));
 
     body->position.v[1] = body->position.v[1] - 8.25f;
-    t3d_mat4fp_from_srt_euler(body->modelMat4FP, body->scale, -body->rotation, body->position);
+    t3d_mat4fp_from_srt_euler(body->modelMat4FP, body->scale, body->rotation, body->position);
 
     rspq_block_run(body->rspBlock);
 }
@@ -166,7 +166,7 @@ void Animated::updateAnimatedBodyControls(ComplexBody *body) {
         t3d_anim_set_playing(&body->animKickIdle, false);
     }
 
-    T3DVec3 newDir = {{(float)joypadInput.stick_x * 0.05f,0.0f,-(float)joypadInput.stick_y * 0.05f}};
+    T3DVec3 newDir = {{(float)joypadInput.stick_x * 0.05f,0.0f,(float)joypadInput.stick_y * 0.05f}};
     float speed = sqrtf(t3d_vec3_len2(&newDir));
 
     if (speed > 0.15f) {
@@ -191,7 +191,7 @@ void Animated::updateAnimatedBodyControls(ComplexBody *body) {
     float directionalVelocityX = body->movementDirection.v[0] * body->currentSpeed * 25.0f;
     float directionalVelocityZ = body->movementDirection.v[2] * body->currentSpeed * 25.0f;
 
-    auto directionalVelocity = (T3DVec3){{-directionalVelocityX, 0.0f, -directionalVelocityZ}};
+    auto directionalVelocity = (T3DVec3){{-directionalVelocityX, 0.0f, directionalVelocityZ}};
 
     bodyMovement::movement(body, directionalVelocity);
     //float angularVelocity = directionalVelocity.v. / 1.75;  ;
@@ -209,6 +209,7 @@ void Animated::render(ComplexBody *body, float deltaTime) {
     else {
         t3d_anim_set_speed(&body->animWalk, body->animBlend + 0.15f);
         t3d_anim_update(&body->animWalk, deltaTime);
+        t3d_skeleton_blend(&body->skeleton, &body->skeleton, &body->skeletonBlend, body->animBlend);
     }
     if (body->isKicking) {
         switch (body->activeKick) {
@@ -270,9 +271,6 @@ void Animated::render(ComplexBody *body, float deltaTime) {
                 if (t3d_anim_is_playing(&body->animKickToe)) {
                     t3d_anim_update(&body->animKickToe, deltaTime);
                 }
-                // else if (t3d_anim_get_time(&body->animKickToe) == 0.f) {
-                //
-                // }
                 else {
                     body->isKicking = false;
                     t3d_anim_set_playing(&body->animKickToe, false);}
@@ -281,11 +279,7 @@ void Animated::render(ComplexBody *body, float deltaTime) {
                 break;
         }
     }
-
-    t3d_skeleton_blend(&body->skeleton, &body->skeleton, &body->skeletonBlend, 0.0f);
 }
-
-
 
 void Animated::deleteAnimatedBody(ComplexBody *body) {
     t3d_skeleton_destroy(&body->skeleton);

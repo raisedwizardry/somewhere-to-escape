@@ -12,7 +12,7 @@ void Camera::initCamera() {
 
     degreeOfFov = 55.0f;
     near = 10.0f;
-    far = 150.0f;
+    far = 500.0f;
 }
 
 void Camera::updateControls(joypad_inputs_t joypadInput) {
