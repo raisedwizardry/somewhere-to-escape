@@ -8,42 +8,6 @@ void Actors::updateActorsControls() {
 }
 
 void Actors::createActors() {
-    T3DVec3 blockPositions[] = {
-        (T3DVec3){{32.0f, 0.0f, 32.0f}},
-
-        (T3DVec3){{0.0f, 0.0f, 32.0f}},
-        (T3DVec3){{-32.0f, 0.0f, 32.0f}},
-
-        (T3DVec3){{32.0f, 0.0f, 0.0f}},
-        (T3DVec3){{32.0f, 0.0f, -32.0f}},
-
-        (T3DVec3){{0.0f, 0.0f, 0.0f}},
-        (T3DVec3){{0.0f, 0.0f, -32.0f}},
-
-        (T3DVec3){{-32.0f, 0.0f, 0.0f}},
-        (T3DVec3){{-32.0f, 0.0f, -32.0f}},
-
-        (T3DVec3){{32.0f, 32.0f, 32.0f}},
-        (T3DVec3){{32.0f, 32.0f, 0.0f}},
-        (T3DVec3){{32.0f, 32.0f, -32.0f}},
-        (T3DVec3){{0.0f, 32.0f, 32.0f}},
-        (T3DVec3){{0.0f, 32.0f, 0.0f}},
-        (T3DVec3){{0.0f, 32.0f, -32.0f}},
-        (T3DVec3){{-32.0f, 32.0f, 32.0f}},
-        (T3DVec3){{-32.0f, 32.0f, 0.0f}},
-        (T3DVec3){{-32.0f, 32.0f, -32.0f}},
-
-        (T3DVec3){{32.0f, 64.0f, 32.0f}},
-        (T3DVec3){{32.0f, 64.0f, 0.0f}},
-        (T3DVec3){{32.0f, 64.0f, -32.0f}},
-        (T3DVec3){{0.0f, 64.0f, 32.0f}},
-        (T3DVec3){{0.0f, 64.0f, 0.0f}},
-        (T3DVec3){{0.0f, 64.0f, -32.0f}},
-        (T3DVec3){{-32.0f, 64.0f, 32.0f}},
-        (T3DVec3){{-32.0f, 64.0f, 0.0f}},
-        (T3DVec3){{-32.0f, 64.0f, -32.0f}}
-    };
-
     float scale64 = 0.015625f;
     auto defaultScale = (T3DVec3){{scale64, scale64, scale64}};
     auto defaultRotation = (T3DVec3){{0.0f, 0.0f, 0.0f}};
@@ -61,30 +25,36 @@ void Actors::createActors() {
             Player1ModelToUse = t3d_model_load("rom:/ram.t3dm");
             break;
     }
-    _animated.escapePlayer1 = _animated.createAnimatedBody(Player1ModelToUse, defaultScale, blockPositions[0], defaultRotation,  JOYPAD_PORT_1);
+    auto playerStartPosition = (T3DVec3){{0.0f, 0.0f, 0.0f}};
+
+    _animated.escapePlayer1 = _animated.createAnimatedBody(Player1ModelToUse, defaultScale, playerStartPosition, defaultRotation,  JOYPAD_PORT_1);
 
      // actorBodys.push_back(
      //     _body.createActorBody(juriModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[5])
      // );
-     // actorBodys.push_back(
-     //     _body.createActorBody(dwellerModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[8])
-     // );
-     // actorBodys.push_back(
-     //     _body.createActorBody(dwellerModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[9])
-     // );
-     // actorBodys.push_back(
-     //     _body.createActorBody(dwellerModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[7])
-     // );
+
+    T3DVec3 dwellerPositions[] = {
+        (T3DVec3){{32.0f, 0.0f, 32.0f}},
+        (T3DVec3){{0.0f, 0.0f, 32.0f}},
+        (T3DVec3){{-32.0f, 0.0f, 32.0f}},
+        (T3DVec3){{0.0f, 0.0f, 64.0f}},
+    };
+    auto dwellerSize = (T3DVec3){{2.1f, 2.1f, 2.1f}};
+
+    _dweller.dweller1 = _dweller.createDwellerBody(defaultScale, dwellerPositions[0], defaultRotation, dwellerSize, 10.0f);
+    _dweller.dweller2 = _dweller.createDwellerBody(defaultScale, dwellerPositions[1], defaultRotation, dwellerSize, 10.0f);
+    _dweller.dweller3 = _dweller.createDwellerBody(defaultScale, dwellerPositions[2], defaultRotation, dwellerSize, 10.0f);
+    _dweller.dweller4 = _dweller.createDwellerBody(defaultScale, dwellerPositions[3], defaultRotation, dwellerSize, 10.0f);
 
     actorBodys.push_back(
-        _body.createActorBody(nModel, (T3DVec3){{nScale, nScale, nScale}}, blockPositions[6], defaultRotation, (T3DVec3){{4.0f, 4.0f, 4.0f}}, 20.0f)
+        _body.createActorBody(nModel, (T3DVec3){{nScale, nScale, nScale}}, (T3DVec3){{0.0f, 0.0f, 32.0f}}, defaultRotation, (T3DVec3){{4.0f, 4.0f, 4.0f}}, 20.0f)
     );
 
     auto caveLocation = (T3DVec3){{40.0f, 0.0f, 320.0f}};
     auto caveSize = (T3DVec3){{12.0f, 25.0f, 40.0f}};
 
     actorBodys.push_back(
-        _body.createActorBody(caveModel, defaultScale, caveLocation, defaultRotation,caveSize, 0.0f)
+        _body.createActorBody(caveModel, defaultScale, caveLocation, defaultRotation, caveSize, 0.0f)
     );
 
     // actorBodys.push_back(
@@ -112,6 +82,16 @@ void Actors::drawActors() {
     for (ActorBody actorBody : actorBodys) {
         _body.drawActorBody(&actorBody);
     }
+
+    _dweller.render(&_dweller.dweller1, _time.deltaTime);
+    _dweller.render(&_dweller.dweller2, _time.deltaTime);
+    _dweller.render(&_dweller.dweller3, _time.deltaTime);
+    _dweller.render(&_dweller.dweller4, _time.deltaTime);
+
+    _dweller.drawDwellerBody(&_dweller.dweller1);
+    _dweller.drawDwellerBody(&_dweller.dweller2);
+    _dweller.drawDwellerBody(&_dweller.dweller3);
+    _dweller.drawDwellerBody(&_dweller.dweller4);
 
 }
 

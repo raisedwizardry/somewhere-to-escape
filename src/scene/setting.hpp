@@ -16,7 +16,7 @@ class Setting {
         Physics& _physics;
         rspq_block_t *dplMap;
         T3DMat4FP* mapMatFP;
-        //T3DModel *mapModel = t3d_model_load("rom:/somewheretoescape/map.t3dm");
+        T3DModel *mapModel = t3d_model_load("rom:/map.t3dm");
         float planeRotationX = 0.0f;
         float planeRotationZ = 0.0f;
         float planeRotation = 0.0f;

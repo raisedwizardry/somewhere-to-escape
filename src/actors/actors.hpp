@@ -8,6 +8,7 @@
 #include "models/actor.hpp"
 #include "body.hpp"
 #include "basic.hpp"
+#include "dweller.hpp"
 #include "../scene/camera.hpp"
 #include "../scene//time.hpp"
 #include "../utility/debugmode.hpp"
@@ -15,8 +16,8 @@
 
 class Actors {
     public:
-        Actors(Physics& physics, Animated& animated, Basic& basic, Body& body, Time& time, Camera& camera, DebugMode& debug)
-            : _physics(physics) , _animated(animated), _basic(basic) , _body(body) , _time(time) , _camera(camera) , _debug(debug) {
+        Actors(Physics& physics, Animated& animated, Basic& basic, Body& body, Time& time, Camera& camera, DebugMode& debug, Dweller& dweller)
+            : _physics(physics) , _animated(animated), _basic(basic) , _body(body) , _time(time) , _camera(camera) , _debug(debug) , _dweller(dweller) {
         }
         ~Actors();
         Selection selectedCharacter = NO_SELECTION;
@@ -32,13 +33,13 @@ class Actors {
         Time& _time;
         Camera& _camera;
         DebugMode& _debug;
+        Dweller& _dweller;
 
         int count = 0;
         std::vector<Actor> actors;
         std::vector<ActorBody> actorBodys;
 
         T3DModel *juriModel = t3d_model_load("rom:/juri.t3dm");
-        T3DModel *dwellerModel = t3d_model_load("rom:/dweller.t3dm");
         T3DModel *Player1ModelToUse;
         T3DModel *nModel = t3d_model_load("rom:/n.t3dm");
         T3DModel *caveModel = t3d_model_load("rom:/cave.t3dm");
