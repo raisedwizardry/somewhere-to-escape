@@ -9,8 +9,8 @@ The game uses these C/C++ projects
 - [Libdragon](https://github.com/DragonMinded/libdragon) - SDK for N64 programming
 - [T3D](https://github.com/HailToDodongo/tiny3d) - libdragon based fast 3D API and ucode library
 - [Bullet](https://github.com/bulletphysics/bullet3) - a well known physics library
-  - to set this up locally follow the [instructions included in my fork of bullet](https://github.com/raisedwizardry/bullet3) (forked for repeatability of set up)
-- [Boost DI](https://github.com/boost-ext/di) - simple dependency injection library
+  - to set this up locally follow the [instructions included in my fork of bullet](https://github.com/raisedwizardry/bullet3) (no code changes, only forked for repeatability of set up)
+- [Boost DI](https://github.com/boost-ext/di) - simple to use dependency injection library
   - to set up locally create a new folder called boost in the `$(N64_INST)/mips64-elf/include/` folder and move that project's provided `di.hpp` file to the new directory
 
 ## Development tools
