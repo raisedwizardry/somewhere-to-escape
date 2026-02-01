@@ -17,7 +17,6 @@ public:
 	void drawAnimatedBody(ComplexBody *body);
 	void deleteAnimatedBody(ComplexBody *body);
 
-	ComplexBody escapePlayer1;
 private:
 	Physics& _physics;
 };

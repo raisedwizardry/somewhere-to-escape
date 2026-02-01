@@ -26,6 +26,15 @@ class Actors {
         void createActors();
         void drawActors();
         void deleteActors();
+
+        ComplexBody escapePlayer1;
+
+        JuriBody theJuri;
+
+        DwellerBody dweller1;
+        DwellerBody dweller2;
+        DwellerBody dweller3;
+        DwellerBody dweller4;
     private:
         Physics& _physics;
         Animated& _animated;
@@ -41,9 +50,10 @@ class Actors {
         std::vector<Actor> actors;
         std::vector<ActorBody> actorBodys;
 
-        T3DModel *juriModel = t3d_model_load("rom:/juri.t3dm");
+        void showOnScreenDebug();
+
         T3DModel *Player1ModelToUse;
-        T3DModel *nModel = t3d_model_load("rom:/n.t3dm");
-        T3DModel *caveModel = t3d_model_load("rom:/cave.t3dm");
-        T3DModel *markerModel = t3d_model_load("rom:/marker.t3dm");
+        T3DModel *nModel = t3d_model_load("rom://n.t3dm");
+        T3DModel *caveModel = t3d_model_load("rom://cave.t3dm");
+        T3DModel *markerModel = t3d_model_load("rom://marker.t3dm");
 };

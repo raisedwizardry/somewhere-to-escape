@@ -13,12 +13,7 @@ public:
     void drawDwellerBody(DwellerBody *dweller);
     void render(DwellerBody *dweller, float deltaTime);
 
-
-    DwellerBody dweller1;
-    DwellerBody dweller2;
-    DwellerBody dweller3;
-    DwellerBody dweller4;
 private:
     Physics& _physics;
-    T3DModel *dwellerModel = t3d_model_load("rom:/dweller.t3dm");
+    T3DModel *dwellerModel = t3d_model_load("rom://dweller.t3dm");
 };

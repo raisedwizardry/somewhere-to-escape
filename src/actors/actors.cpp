@@ -4,7 +4,7 @@
 #include "../scene/time.hpp"
 
 void Actors::updateActorsControls() {
-    _animated.updateAnimatedBodyControls(&_animated.escapePlayer1);
+    _animated.updateAnimatedBodyControls(&escapePlayer1);
 }
 
 void Actors::createActors() {
@@ -27,7 +27,7 @@ void Actors::createActors() {
     }
     auto playerStartPosition = (T3DVec3){{0.0f, 0.0f, 0.0f}};
 
-    _animated.escapePlayer1 = _animated.createAnimatedBody(Player1ModelToUse, defaultScale, playerStartPosition, defaultRotation,  JOYPAD_PORT_1);
+    escapePlayer1 = _animated.createAnimatedBody(Player1ModelToUse, defaultScale, playerStartPosition, defaultRotation,  JOYPAD_PORT_1);
 
      // actorBodys.push_back(
      //     _body.createActorBody(juriModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[5])
@@ -41,12 +41,12 @@ void Actors::createActors() {
     };
     auto dwellerSize = (T3DVec3){{2.1f, 2.1f, 2.1f}};
 
-    //_dweller.dweller1 = _dweller.createDwellerBody(defaultScale, dwellerPositions[0], defaultRotation, dwellerSize, 10.0f);
-    // _dweller.dweller2 = _dweller.createDwellerBody(defaultScale, dwellerPositions[1], defaultRotation, dwellerSize, 10.0f);
-    // _dweller.dweller3 = _dweller.createDwellerBody(defaultScale, dwellerPositions[2], defaultRotation, dwellerSize, 10.0f);
-    // _dweller.dweller4 = _dweller.createDwellerBody(defaultScale, dwellerPositions[3], defaultRotation, dwellerSize, 10.0f);
+    //dweller1 = _dweller.createDwellerBody(defaultScale, dwellerPositions[0], defaultRotation, dwellerSize, 10.0f);
+    //dweller2 = _dweller.createDwellerBody(defaultScale, dwellerPositions[1], defaultRotation, dwellerSize, 10.0f);
+    //dweller3 = _dweller.createDwellerBody(defaultScale, dwellerPositions[2], defaultRotation, dwellerSize, 10.0f);
+    //dweller4 = _dweller.createDwellerBody(defaultScale, dwellerPositions[3], defaultRotation, dwellerSize, 10.0f);
 
-    _juri.theJuri = _juri.createJuriBody(defaultScale, dwellerPositions[3], defaultRotation);
+    theJuri = _juri.createJuriBody(defaultScale, dwellerPositions[3], defaultRotation);
     actorBodys.push_back(
         _body.createActorBody(nModel, (T3DVec3){{nScale, nScale, nScale}}, (T3DVec3){{0.0f, 0.0f, 32.0f}}, defaultRotation, (T3DVec3){{4.0f, 4.0f, 4.0f}}, 20.0f)
     );
@@ -63,8 +63,8 @@ void Actors::createActors() {
     // );
 
     if (_debug.P4_CAMERA_DEBUG) {
-        _camera.cameraTarget = _animated.escapePlayer1.position;
-        _camera.cameraPosition = (T3DVec3){{_animated.escapePlayer1.position.x, 25.0f, _animated.escapePlayer1.position.z + 60.0f}};
+        _camera.cameraTarget = escapePlayer1.position;
+        _camera.cameraPosition = (T3DVec3){{escapePlayer1.position.x, 25.0f, escapePlayer1.position.z + 60.0f}};
     }
 
 }
@@ -72,31 +72,31 @@ void Actors::createActors() {
 void Actors::drawActors() {
     mixer_try_play();
 
-    _animated.render(&_animated.escapePlayer1, _time.deltaTime);
+    _animated.render(&escapePlayer1, _time.deltaTime);
     if (!_debug.P4_CAMERA_DEBUG) {
-        _camera.cameraTarget = _animated.escapePlayer1.position;
-        _camera.cameraPosition = (T3DVec3){{_animated.escapePlayer1.position.x, 25.0f, _animated.escapePlayer1.position.z - 60.0f}};
+        _camera.cameraTarget = escapePlayer1.position;
+        _camera.cameraPosition = (T3DVec3){{escapePlayer1.position.x, 25.0f, escapePlayer1.position.z - 60.0f}};
     }
 
-    _animated.drawAnimatedBody(&_animated.escapePlayer1);
+    _animated.drawAnimatedBody(&escapePlayer1);
 
     for (ActorBody actorBody : actorBodys) {
         _body.drawActorBody(&actorBody);
     }
 
-     _juri.render(&_juri.theJuri, _time.deltaTime);
+     _juri.render(&theJuri, _time.deltaTime);
 
-     //_dweller.render(&_dweller.dweller1, _time.deltaTime);
-    // _dweller.render(&_dweller.dweller2, _time.deltaTime);
-    // _dweller.render(&_dweller.dweller3, _time.deltaTime);
-    //_dweller.render(&_dweller.dweller4, _time.deltaTime);
+     //_dweller.render(&dweller1, _time.deltaTime);
+    // _dweller.render(&dweller2, _time.deltaTime);
+    // _dweller.render(&dweller3, _time.deltaTime);
+    //_dweller.render(&dweller4, _time.deltaTime);
 
-    _juri.drawJuriBody(&_juri.theJuri);
-    //_dweller.drawDwellerBody(&_dweller.dweller1);
-    // _dweller.drawDwellerBody(&_dweller.dweller2);
-    // _dweller.drawDwellerBody(&_dweller.dweller3);
-    //_dweller.drawDwellerBody(&_dweller.dweller4);
-
+    _juri.drawJuriBody(&theJuri);
+    //_dweller.drawDwellerBody(&dweller1);
+    // _dweller.drawDwellerBody(&dweller2);
+    // _dweller.drawDwellerBody(&dweller3);
+    //_dweller.drawDwellerBody(&dweller4);
+    showOnScreenDebug();
 }
 
 void Actors::deleteActors() {
@@ -110,6 +110,55 @@ void Actors::deleteActors() {
         rspq_block_free(actorBody.dpl);
 
         free_uncached(actorBody.modelMat);
+    }
+}
+
+void Actors::showOnScreenDebug() {
+    float posX = 8;
+    if (_debug.ONSCREEN_DEBUG) {
+        // float posX1 = 16;
+        // float posX2 = 24;
+        // float posX3 = 40;
+        // float posX4 = 56;
+        float otherPosX = 32;
+        float otherPosY1 = 64;
+        float otherPosY2 = 80;
+        float otherPosY3 = 96;
+        float otherPosY4 = 112;
+        float otherPosY5 = 128;
+        float otherPosY6 = 144;
+        float otherPosY7 = 160;
+        float otherPosY8 = 176;
+        float otherPosY9 = 192;
+        float otherPosY10 = 210;
+        float otherPosY11 = 226;
+        float otherPosY12 = 234;
+
+        rdpq_sync_pipe();
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY1, "rX:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY1, std::to_string(escapePlayer1.rotation.x).c_str() );
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY2, "rY:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY2, std::to_string(escapePlayer1.rotation.y).c_str() );
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY3, "rZ:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY3, std::to_string(escapePlayer1.rotation.z).c_str() );
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY4, "pX:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY4, std::to_string(escapePlayer1.position.x).c_str() );
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY5, "pY:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY5, std::to_string(escapePlayer1.position.y).c_str() );
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY6, "pZ:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY6, std::to_string(escapePlayer1.position.z).c_str() );
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY7, "7:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY7, std::to_string(t3d_anim_get_time(&escapePlayer1.animKickCrescent)).c_str() );
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY8, "8:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY8, "Debug");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY9, "9:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY9, "Debug");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY10, "10:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY10, "Debug");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY11, "11:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY11, "Debug");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, posX, otherPosY12, "12:");
+        rdpq_text_printf(NULL, FONT_BUILTIN_DEBUG_MONO, otherPosX, otherPosY12, "Debug");
     }
 }
 

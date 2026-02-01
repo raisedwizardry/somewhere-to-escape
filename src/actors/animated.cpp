@@ -2,7 +2,6 @@
 #include <t3d/t3dmath.h>
 #include <t3d/t3dskeleton.h>
 #include "animated.hpp"
-#include "../physics/bodyForce.hpp"
 #include "../physics/bodyMovement.hpp"
 #include "../physics/convertBullet.hpp"
 #include "models/actions.hpp"

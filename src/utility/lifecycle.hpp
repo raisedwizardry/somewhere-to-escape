@@ -1,14 +1,14 @@
 #pragma once
 
-#include "../actors/animated.hpp"
 #include "../scene/action.hpp"
 #include "debugmode.hpp"
+#include "../actors/actors.hpp"
 
 #define FB_COUNT 3
 
 class Lifecycle {
     public:
-        Lifecycle(DebugMode& debug, Animated& animated, Action& action) : _debug(debug) , _animated(animated) , _action(action) {
+        Lifecycle(DebugMode& debug) : _debug(debug) {
             initSetup();
         }
         void initSetup();
@@ -16,6 +16,4 @@ class Lifecycle {
         void drawUi();
     private:
         DebugMode& _debug;
-        Animated& _animated;
-        Action& _action;
 };

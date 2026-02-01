@@ -73,6 +73,9 @@ void SomewhereToEscapeGame::start() {
 		}
 		else {
 			render();
+			if (_physics.isColliding(_actors.escapePlayer1.rigidBody, _actors.theJuri.rigidBody)) {
+				break;
+			}
 		}
 		//exit the loop for quit functionality
 	}

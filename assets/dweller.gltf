@@ -24308,6 +24308,13 @@
 					}
 				}
 			],
+			"extras":{
+				"fast64":{
+					"sm64":{
+						"animation":{}
+					}
+				}
+			},
 			"name":"TPose",
 			"samplers":[
 				{

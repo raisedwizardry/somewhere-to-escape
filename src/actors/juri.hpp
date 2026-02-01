@@ -14,9 +14,8 @@ public:
     void drawJuriBody(JuriBody *juri);
     void render(JuriBody *juri, float deltaTime);
 
-    JuriBody theJuri;
 
 private:
     Physics& _physics;
-    T3DModel *juriModel = t3d_model_load("rom:/juri.t3dm");
+    T3DModel *juriModel = t3d_model_load("rom://juri.t3dm");
 };
