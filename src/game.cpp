@@ -68,7 +68,8 @@ void SomewhereToEscapeGame::start() {
 
 	for (;;) {
 
-		if (_action.isPaused) {
+		if (isStartPressed()) {
+			_action.isPaused = true;
 			_action.checkForUnpause();
 		}
 		else {

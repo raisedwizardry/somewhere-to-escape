@@ -18,7 +18,6 @@ void Scene::updateControls() {
         joypad_port_t port = Button::ports[i];
         currentPort = port;
         joypad_inputs_t joypadInput = joypad_get_inputs(port);
-        _action.updateControls(joypadInput);
 
         if (currentPort == JOYPAD_PORT_4 && _debug.P4_CAMERA_DEBUG) {
             _camera.updateControls(joypadInput);
