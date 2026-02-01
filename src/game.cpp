@@ -52,7 +52,7 @@ void SomewhereToEscapeGame::start() {
 
 	_menu.isCharacterSelectionMade = false;
 	_actors.selectedCharacter = NO_SELECTION;
-	_menu.currentSelectedCharacter = SQUIR;
+	_menu.currentSelectedCharacter = RAM;
 
 	for (;;) {
 		_menu.makeCharacterSelection();

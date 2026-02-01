@@ -24,12 +24,13 @@ void Menu::mainMenu() {
 void Menu::makeCharacterSelection() {
     disp = display_get();
     graphics_fill_screen(disp, graphics_convert_color(RGBA32(100, 0, 200, 0)));
+    graphics_draw_text(disp, 87, 10, "Character Selection");
 
     _sound.switchSoundByTuneId(MENU, 0);
 
     if (!isCharacterSelectionMade) {
         selectCharacter();
-        checkPressButtonA();
+        checkButtonC();
     }
     else {
         confirmSelectedCharacter();
@@ -44,22 +45,22 @@ void Menu::selectCharacter() {
     getCharacterTextBySelectionId(currentSelectedCharacter);
     getCharacterSpriteBySelectionId(currentSelectedCharacter);
     graphics_draw_text(disp, 90, 20, "Press A to Select");
-    // if (isPressButtonA()) {
-    //     return true;
-    // }
-    // return false;
 }
 
 void Menu::getCharacterTextBySelectionId(Selection selection) {
     switch (selection) {
         case RAM:
             graphics_draw_text(disp, 150, 40, "Ram");
+            graphics_draw_text(disp, 255, 80, "C-Right");
             break;
         case BUNNY:
             graphics_draw_text(disp, 137, 40, "Bunny");
+            graphics_draw_text(disp, 255, 80, "C-Right");
+            graphics_draw_text(disp, 20, 80, "C-Left");
             break;
         case SQUIR:
             graphics_draw_text(disp, 138, 40, "Squir");
+            graphics_draw_text(disp, 20, 80, "C-Left");
             break;
         case NO_SELECTION:
         default:
@@ -102,17 +103,41 @@ void Menu::getCharacterSelectedSpriteBySelectionId(Selection selection) {
 }
 
 void Menu::confirmSelectedCharacter() {
-    graphics_draw_text(disp, 80, 20, "Press Start to Confirm");
+    graphics_draw_text(disp, 78, 20, "Press Start to Confirm");
+    graphics_draw_text(disp, 88, 30, "Press B to Reselect");
     getCharacterSelectedSpriteBySelectionId(currentSelectedCharacter);
 }
 
-
-void Menu::checkPressButtonA() {
+void Menu::checkButtonC() {
     joypad_poll();
     joypad_buttons_t btn = joypad_get_buttons_pressed(JOYPAD_PORT_1);
-
     if (btn.a) {
         isCharacterSelectionMade = true;
+        return;
+    }
+
+    switch (currentSelectedCharacter) {
+        case RAM:
+            if (btn.c_right) {
+                currentSelectedCharacter = BUNNY;
+            }
+            break;
+        case BUNNY:
+            if (btn.c_left) {
+                currentSelectedCharacter = RAM;
+            }
+            if (btn.c_right) {
+                currentSelectedCharacter = SQUIR;
+            }
+            break;
+        case SQUIR:
+            if (btn.c_left) {
+                currentSelectedCharacter = BUNNY;
+            }
+            break;
+        case NO_SELECTION:
+        default:
+            break;
     }
 }
 
@@ -120,6 +145,10 @@ void Menu::checkPressButtonStart() {
     joypad_poll();
     joypad_buttons_t btn = joypad_get_buttons_pressed(JOYPAD_PORT_1);
 
+    if (btn.b) {
+        isCharacterSelectionMade = false;
+        return;
+    }
     if (btn.start) {
         isCharacterSelectionConfirmed = true;
     }

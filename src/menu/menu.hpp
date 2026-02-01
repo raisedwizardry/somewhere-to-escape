@@ -15,7 +15,7 @@ class Menu {
     private:
         void selectCharacter();
         void confirmSelectedCharacter();
-        void checkPressButtonA();
+        void checkButtonC();
         void checkPressButtonStart();
         display_context_t disp = 0;
         void getCharacterTextBySelectionId(Selection selection);
