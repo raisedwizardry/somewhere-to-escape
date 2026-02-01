@@ -11,8 +11,9 @@ void Actors::updateActorsControls() {
 
 void Actors::createActors() {
     T3DVec3 blockPositions[] = {
-        (T3DVec3){{0.0f, 0.0f, 32.0f}},
         (T3DVec3){{32.0f, 0.0f, 32.0f}},
+
+        (T3DVec3){{0.0f, 0.0f, 32.0f}},
         (T3DVec3){{-32.0f, 0.0f, 32.0f}},
 
         (T3DVec3){{32.0f, 0.0f, 0.0f}},
@@ -46,8 +47,9 @@ void Actors::createActors() {
     };
 
     float juriScale = 0.015625f;
+    float nScale = 0.11f;
 
-    _animated.escapePlayer1 = _animated.createAnimatedBody(ramModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[0],(T3DVec3){{0.0f, 0.0f, 0.0f}},  JOYPAD_PORT_1);
+    _animated.escapePlayer1 = _animated.createAnimatedBody(squirModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[0],(T3DVec3){{0.0f, 0.0f, 0.0f}},  JOYPAD_PORT_1);
     //_animated.escapePlayer2 = _animated.createAnimatedBody(squirModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[1],(T3DVec3){{0.0f, 0.0f, 0.0f}},  JOYPAD_PORT_2);
     //_animated.escapePlayer3 = _animated.createAnimatedBody(bunnyModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[2],(T3DVec3){{0.0f, 0.0f, 0.0f}},  JOYPAD_PORT_3);
 
@@ -63,9 +65,16 @@ void Actors::createActors() {
      // actorBodys.push_back(
      //     _body.createActorBody(dwellerModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[7])
      // );
-     // actorBodys.push_back(
-     //     _body.createActorBody(dwellerModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[6])
-     // );
+    actorBodys.push_back(
+        _body.createActorBody(nModel, (T3DVec3){{nScale, nScale, nScale}}, blockPositions[6])
+    );
+    actorBodys.push_back(
+        _body.createActorBody(caveModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[8])
+    );
+
+    actorBodys.push_back(
+        _body.createActorBody(markerModel, (T3DVec3){{juriScale, juriScale, juriScale}}, blockPositions[2])
+    );
 
     if (_debug.P4_CAMERA_DEBUG) {
         _camera.cameraTarget = _animated.escapePlayer1.position;

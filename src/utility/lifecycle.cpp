@@ -46,7 +46,7 @@ void Lifecycle::initDraw3d() {
 
     t3d_frame_start();
 
-    rdpq_mode_combiner(RDPQ_COMBINER_SHADE);
+    rdpq_mode_blender(RDPQ_BLENDER_MULTIPLY);
     t3d_screen_clear_color(RGBA32(100, 0, 100, 0));
     t3d_screen_clear_depth();
 }

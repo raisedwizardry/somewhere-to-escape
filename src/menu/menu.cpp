@@ -4,6 +4,7 @@
 void Menu::mainMenu() {
     rdpq_attach(display_get(), display_get_zbuf());
     _sound.switchSoundByTuneId(MENU, 0);
+
     auto textParams = (rdpq_textparms_t){
         .width = 320,
         .align = ALIGN_CENTER,

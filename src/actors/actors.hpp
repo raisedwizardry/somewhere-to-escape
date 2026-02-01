@@ -41,7 +41,11 @@ class Actors {
 
         T3DModel *juriModel = t3d_model_load("rom:/juri.t3dm");
         T3DModel *dwellerModel = t3d_model_load("rom:/dweller.t3dm");
+
         T3DModel *ramModel = t3d_model_load("rom:/ram.t3dm");
-        //T3DModel *bunnyModel = t3d_model_load("rom:/bunny.t3dm");
-        //T3DModel *squirModel = t3d_model_load("rom:/squir.t3dm");
+        T3DModel *nModel = t3d_model_load("rom:/n.t3dm");
+        T3DModel *caveModel = t3d_model_load("rom:/cave.t3dm");
+        T3DModel *markerModel = t3d_model_load("rom:/marker.t3dm");
+        T3DModel *bunnyModel = t3d_model_load("rom:/bunny.t3dm");
+        T3DModel *squirModel = t3d_model_load("rom:/squir.t3dm");
 };
