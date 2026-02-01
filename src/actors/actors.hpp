@@ -9,6 +9,7 @@
 #include "body.hpp"
 #include "basic.hpp"
 #include "dweller.hpp"
+#include "juri.hpp"
 #include "../scene/camera.hpp"
 #include "../scene//time.hpp"
 #include "../utility/debugmode.hpp"
@@ -16,8 +17,8 @@
 
 class Actors {
     public:
-        Actors(Physics& physics, Animated& animated, Basic& basic, Body& body, Time& time, Camera& camera, DebugMode& debug, Dweller& dweller)
-            : _physics(physics) , _animated(animated), _basic(basic) , _body(body) , _time(time) , _camera(camera) , _debug(debug) , _dweller(dweller) {
+        Actors(Physics& physics, Animated& animated, Basic& basic, Body& body, Time& time, Camera& camera, DebugMode& debug, Dweller& dweller, Juri& juri)
+            : _physics(physics) , _animated(animated), _basic(basic) , _body(body) , _time(time) , _camera(camera) , _debug(debug) , _dweller(dweller), _juri(juri) {
         }
         ~Actors();
         Selection selectedCharacter = NO_SELECTION;
@@ -34,6 +35,7 @@ class Actors {
         Camera& _camera;
         DebugMode& _debug;
         Dweller& _dweller;
+        Juri& _juri;
 
         int count = 0;
         std::vector<Actor> actors;

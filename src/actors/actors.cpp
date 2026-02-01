@@ -44,8 +44,9 @@ void Actors::createActors() {
     //_dweller.dweller1 = _dweller.createDwellerBody(defaultScale, dwellerPositions[0], defaultRotation, dwellerSize, 10.0f);
     // _dweller.dweller2 = _dweller.createDwellerBody(defaultScale, dwellerPositions[1], defaultRotation, dwellerSize, 10.0f);
     // _dweller.dweller3 = _dweller.createDwellerBody(defaultScale, dwellerPositions[2], defaultRotation, dwellerSize, 10.0f);
-     _dweller.dweller4 = _dweller.createDwellerBody(defaultScale, dwellerPositions[3], defaultRotation, dwellerSize, 10.0f);
+    // _dweller.dweller4 = _dweller.createDwellerBody(defaultScale, dwellerPositions[3], defaultRotation, dwellerSize, 10.0f);
 
+    _juri.theJuri = _juri.createJuriBody(defaultScale, dwellerPositions[3], defaultRotation);
     actorBodys.push_back(
         _body.createActorBody(nModel, (T3DVec3){{nScale, nScale, nScale}}, (T3DVec3){{0.0f, 0.0f, 32.0f}}, defaultRotation, (T3DVec3){{4.0f, 4.0f, 4.0f}}, 20.0f)
     );
@@ -83,15 +84,18 @@ void Actors::drawActors() {
         _body.drawActorBody(&actorBody);
     }
 
+     _juri.render(&_juri.theJuri, _time.deltaTime);
+
      //_dweller.render(&_dweller.dweller1, _time.deltaTime);
     // _dweller.render(&_dweller.dweller2, _time.deltaTime);
     // _dweller.render(&_dweller.dweller3, _time.deltaTime);
-    _dweller.render(&_dweller.dweller4, _time.deltaTime);
-    //
+    //_dweller.render(&_dweller.dweller4, _time.deltaTime);
+
+    _juri.drawJuriBody(&_juri.theJuri);
     //_dweller.drawDwellerBody(&_dweller.dweller1);
     // _dweller.drawDwellerBody(&_dweller.dweller2);
     // _dweller.drawDwellerBody(&_dweller.dweller3);
-    _dweller.drawDwellerBody(&_dweller.dweller4);
+    //_dweller.drawDwellerBody(&_dweller.dweller4);
 
 }
 
