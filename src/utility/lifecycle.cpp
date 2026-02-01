@@ -6,6 +6,8 @@
 #include <t3d/t3danim.h>
 
 void Lifecycle::initSetup() {
+    assert_memory_expanded();
+
     debug_init_isviewer();
 
     debug_init_usblog();

@@ -23,6 +23,9 @@ class SomewhereToEscapeGame {
         Action& _action;
         Menu& _menu;
 
+        bool isStartPressed();
+        bool gamePauseStateCheck();
+
         void updateControls();
         void setup();
         void render();

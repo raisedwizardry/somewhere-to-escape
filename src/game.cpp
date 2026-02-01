@@ -11,10 +11,19 @@ void checkForSkip(void *ctx, int frame_idx, float time_sec, fmv_control_t *ctrl)
 	}
 }
 
-bool isStartGame() {
+bool SomewhereToEscapeGame::isStartPressed() {
 	joypad_poll();
 	joypad_buttons_t btn = joypad_get_buttons_pressed(JOYPAD_PORT_1);
 
+	if (btn.start) {
+		return true;
+	}
+	return false;
+}
+
+bool SomewhereToEscapeGame::gamePauseStateCheck() {
+	joypad_poll();
+	joypad_buttons_t btn = joypad_get_buttons_pressed(JOYPAD_PORT_1);
 	if (btn.start) {
 		return true;
 	}
@@ -36,16 +45,21 @@ void SomewhereToEscapeGame::start() {
 		_menu.mainMenu();
 		mixer_try_play();
 
-		if (isStartGame()) {
+		if (isStartPressed()) {
 			break;
 		}
 	}
 
+	_menu.isCharacterSelectionMade = false;
+	_actors.selectedCharacter = NO_SELECTION;
+	_menu.currentSelectedCharacter = SQUIR;
+
 	for (;;) {
-		_menu.selectCharacter();
+		_menu.makeCharacterSelection();
 		mixer_try_play();
 
-		if (isStartGame()) {
+		if (_menu.isCharacterSelectionMade && _menu.isCharacterSelectionConfirmed) {
+			_actors.selectedCharacter = _menu.currentSelectedCharacter;
 			break;
 		}
 	}

@@ -3,7 +3,7 @@
 class DebugMode {
     public:
         DebugMode() {
-            //setDebugModeFlags();
+            setDebugModeFlags();
         }
         void setDebugModeFlags();
         bool PHYSICS_DEBUG = false;
