@@ -41,17 +41,17 @@ void Actors::createActors() {
     };
     auto dwellerSize = (T3DVec3){{2.1f, 2.1f, 2.1f}};
 
-    _dweller.dweller1 = _dweller.createDwellerBody(defaultScale, dwellerPositions[0], defaultRotation, dwellerSize, 10.0f);
-    _dweller.dweller2 = _dweller.createDwellerBody(defaultScale, dwellerPositions[1], defaultRotation, dwellerSize, 10.0f);
-    _dweller.dweller3 = _dweller.createDwellerBody(defaultScale, dwellerPositions[2], defaultRotation, dwellerSize, 10.0f);
-    _dweller.dweller4 = _dweller.createDwellerBody(defaultScale, dwellerPositions[3], defaultRotation, dwellerSize, 10.0f);
+    //_dweller.dweller1 = _dweller.createDwellerBody(defaultScale, dwellerPositions[0], defaultRotation, dwellerSize, 10.0f);
+    // _dweller.dweller2 = _dweller.createDwellerBody(defaultScale, dwellerPositions[1], defaultRotation, dwellerSize, 10.0f);
+    // _dweller.dweller3 = _dweller.createDwellerBody(defaultScale, dwellerPositions[2], defaultRotation, dwellerSize, 10.0f);
+     _dweller.dweller4 = _dweller.createDwellerBody(defaultScale, dwellerPositions[3], defaultRotation, dwellerSize, 10.0f);
 
     actorBodys.push_back(
         _body.createActorBody(nModel, (T3DVec3){{nScale, nScale, nScale}}, (T3DVec3){{0.0f, 0.0f, 32.0f}}, defaultRotation, (T3DVec3){{4.0f, 4.0f, 4.0f}}, 20.0f)
     );
 
-    auto caveLocation = (T3DVec3){{40.0f, 0.0f, 320.0f}};
-    auto caveSize = (T3DVec3){{12.0f, 25.0f, 40.0f}};
+    auto caveLocation = (T3DVec3){{40.0f, 0.0f, 80.0f}};
+    auto caveSize = (T3DVec3){{27.0f, 14.0f, 54.0f}};
 
     actorBodys.push_back(
         _body.createActorBody(caveModel, defaultScale, caveLocation, defaultRotation, caveSize, 0.0f)
@@ -83,14 +83,14 @@ void Actors::drawActors() {
         _body.drawActorBody(&actorBody);
     }
 
-    _dweller.render(&_dweller.dweller1, _time.deltaTime);
-    _dweller.render(&_dweller.dweller2, _time.deltaTime);
-    _dweller.render(&_dweller.dweller3, _time.deltaTime);
+     //_dweller.render(&_dweller.dweller1, _time.deltaTime);
+    // _dweller.render(&_dweller.dweller2, _time.deltaTime);
+    // _dweller.render(&_dweller.dweller3, _time.deltaTime);
     _dweller.render(&_dweller.dweller4, _time.deltaTime);
-
-    _dweller.drawDwellerBody(&_dweller.dweller1);
-    _dweller.drawDwellerBody(&_dweller.dweller2);
-    _dweller.drawDwellerBody(&_dweller.dweller3);
+    //
+    //_dweller.drawDwellerBody(&_dweller.dweller1);
+    // _dweller.drawDwellerBody(&_dweller.dweller2);
+    // _dweller.drawDwellerBody(&_dweller.dweller3);
     _dweller.drawDwellerBody(&_dweller.dweller4);
 
 }

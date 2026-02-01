@@ -29,6 +29,7 @@ ActorBody Body::createActorBody(T3DModel *model, T3DVec3 scale, T3DVec3 starting
 void Body::drawActorBody(ActorBody *actor) {
     actor->position = convertBullet::btVector3ToT3DVec3(_physics.getRigidBodyPosition(actor->rigidBody));
     actor->rotation = convertBullet::btQuaternionToT3DVec3(_physics.getRigidBodyRotation(actor->rigidBody));
+    actor->position.v[1] = actor->position.v[1];
 
     rspq_block_run(actor->dpl);
 

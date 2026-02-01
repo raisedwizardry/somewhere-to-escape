@@ -5,7 +5,7 @@
 void Setting::createSetting() {
     mapMatFP = (T3DMat4FP*)malloc_uncached(sizeof(T3DMat4FP));
 
-    t3d_mat4fp_from_srt_euler(mapMatFP, (float[3]){0.1f, 0.1f, 0.1f}, (float[3]){0, 0, 0}, (float[3]){0, 0, -10});
+    t3d_mat4fp_from_srt_euler(mapMatFP, (float[3]){0.05f, 0.05f, 0.05f}, (float[3]){0, 0, 0}, (float[3]){0, 0, 0});
 
     rspq_block_begin();
     	t3d_matrix_push(mapMatFP);
