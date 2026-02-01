@@ -17,7 +17,7 @@ class Physics {
         btQuaternion getRigidBodyRotation(btRigidBody *rigidBody);
         void setRigidBodyRotation(btRigidBody *rigidBody, float rotation[3]);
         void createGroundRigidBody();
-        void applyForce(btRigidBody *rigidBody);
+        bool isColliding(btRigidBody *rigidBody1, btRigidBody *rigidBody2);
 
     private:
         btCollisionConfiguration *collisionConfiguration;

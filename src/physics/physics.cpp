@@ -117,12 +117,17 @@ void Physics::setRigidBodyRotation(btRigidBody *rigidBody, float rotation[3]) {
     rigidBody->getMotionState()->setWorldTransform(trans);
 }
 
-void Physics::applyForce(btRigidBody *rigidBody) {
-    btVector3 relativeForce = btVector3(0.0f,20.0f,0);
-    btTransform boxTrans;
-    rigidBody->getMotionState()->getWorldTransform(boxTrans);
-    btVector3 correctedForce = (boxTrans * relativeForce) - boxTrans.getOrigin();
-    // btMatrix3x3& boxRot = rigidBody->getWorldTransform().getBasis();
-    // btVector3 correctedForce = boxRot * relativeForce;
-    rigidBody->applyCentralForce(correctedForce);
+bool Physics::isColliding(btRigidBody *rigidBody1, btRigidBody *rigidBody2) {
+    int numManifolds = dynamicsWorld->getDispatcher()->getNumManifolds();
+    for (int i = 0; i < numManifolds; i++)
+    {
+        btPersistentManifold* contactManifold =  dynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
+        const btCollisionObject* obA = contactManifold->getBody0();
+        const btCollisionObject* obB = contactManifold->getBody1();
+
+        if ((obA == rigidBody1 || obA == rigidBody2) && (obB == rigidBody1 || obB == rigidBody2)) {
+            return true;
+        }
+    }
+    return false;
 }
