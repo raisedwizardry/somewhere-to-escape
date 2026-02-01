@@ -5,7 +5,6 @@ class Action {
     public:
         Action() {
         }
-        bool isPaused = false;
         void checkForUnpause();
     private:
         bool isUnpausePressed();

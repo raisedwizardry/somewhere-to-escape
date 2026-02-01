@@ -3,7 +3,6 @@
 void Action::checkForUnpause() {
     for (;;) {
         if (isUnpausePressed()) {
-            isPaused = false;
             break;
         }
     }
