@@ -9,13 +9,13 @@
 
 void Animated::drawAnimatedBody(ComplexBody *body) {
     t3d_skeleton_update(&body->skeleton);
+    t3d_mat4fp_from_srt_euler(body->modelMat4FP, body->scale, body->rotation, body->position);
 
     body->position = convertBullet::btVector3ToT3DVec3(_physics.getRigidBodyPosition(body->rigidBody));
     _physics.setRigidBodyRotation(body->rigidBody, body->rotation.v);
     //body->rotation = convertBullet::btQuaternionToT3DVec3(_physics.getRigidBodyRotation(body->rigidBody));
 
     body->position.v[1] = body->position.v[1] - 8.25f;
-    t3d_mat4fp_from_srt_euler(body->modelMat4FP, body->scale, body->rotation, body->position);
 
     rspq_block_run(body->rspBlock);
 }

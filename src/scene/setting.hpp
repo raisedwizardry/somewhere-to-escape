@@ -4,6 +4,8 @@
 #include <t3d/t3dmodel.h>
 
 #include "../physics/physics.hpp"
+#include "../actors/models/actor.hpp"
+#include "../actors/models/gamestate.hpp"
 
 class Setting {
     public:
@@ -11,20 +13,28 @@ class Setting {
             : _physics(physics) {
         }
         void createSetting();
-        void drawMap();
+        void drawMap(GameState gameState);
     private:
         Physics& _physics;
-        rspq_block_t *dplMap;
-        T3DMat4FP* mapMatFP;
-        T3DModel *mapModel = t3d_model_load("rom:/map.t3dm");
-        float planeRotationX = 0.0f;
-        float planeRotationZ = 0.0f;
-        float planeRotation = 0.0f;
-        T3DVec3 rotAxisX = {{1.0f, 0.0f, 0.0f}};
-        T3DVec3 rotAxisZ = {{0.0f, 0.0f, 1.0f}};
-        T3DVec3 rotAxis = {{0.0f, 0.0f, 0.0f}};
-        T3DMat4 modelMat;
-        rspq_block_t *dplDraw;
-        T3DMat4FP *modelMatFP;
-        T3DVertPacked *vertices;
+        T3DModel *greenModel = t3d_model_load("rom:/map.t3dm");
+        T3DModel *forestModel = t3d_model_load("rom:/forest.t3dm");
+        T3DModel *juriWorldModel = t3d_model_load("rom:/juri-world.t3dm");
+        Actor greenMap = {
+            .scale = (T3DVec3){{0.05f, 0.05f, 0.05f}},
+            .position = (T3DVec3){{0.0f, 0.0f, -100.0f}},
+            .rotation = (T3DVec3){{0.0f, 0.0f, 0.0f}},
+            .modelMat =(T3DMat4FP*)malloc_uncached(sizeof(T3DMat4FP))
+        };
+        Actor forestMap = {
+            .scale = (T3DVec3){{0.05f, 0.05f, 0.05f}},
+            .position = (T3DVec3){{0.0f, 0.0f, 0.0f}},
+            .rotation = (T3DVec3){{0.0f, 0.0f, 0.0f}},
+            .modelMat =(T3DMat4FP*)malloc_uncached(sizeof(T3DMat4FP))
+        };
+        Actor juriWorldMap = {
+            .scale = (T3DVec3){{0.05f, 0.05f, 0.05f}},
+            .position = (T3DVec3){{0.0f, 0.0f, 100.0f}},
+            .rotation = (T3DVec3){{0.0f, 0.0f, 0.0f}},
+            .modelMat =(T3DMat4FP*)malloc_uncached(sizeof(T3DMat4FP))
+        };
 };

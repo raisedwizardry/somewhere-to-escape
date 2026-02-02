@@ -13,6 +13,7 @@
 #include "../scene/camera.hpp"
 #include "../scene//time.hpp"
 #include "../utility/debugmode.hpp"
+#include "models/gamestate.hpp"
 #include "models/selection.hpp"
 
 class Actors {
@@ -24,7 +25,7 @@ class Actors {
         Selection selectedCharacter = NO_SELECTION;
         void updateActorsControls();
         void createActors();
-        void drawActors();
+        void drawActors(GameState gameState);
         void deleteActors();
 
         ComplexBody escapePlayer1;
@@ -35,6 +36,12 @@ class Actors {
         DwellerBody dweller2;
         DwellerBody dweller3;
         DwellerBody dweller4;
+        ActorBody train;
+
+        ActorBody path;
+        ActorBody cave;
+        std::vector<Actor> actors;
+        std::vector<ActorBody> actorBodys;
     private:
         Physics& _physics;
         Animated& _animated;
@@ -47,13 +54,13 @@ class Actors {
         Juri& _juri;
 
         int count = 0;
-        std::vector<Actor> actors;
-        std::vector<ActorBody> actorBodys;
 
         void showOnScreenDebug();
 
         T3DModel *Player1ModelToUse;
         T3DModel *nModel = t3d_model_load("rom://n.t3dm");
         T3DModel *caveModel = t3d_model_load("rom://cave.t3dm");
+        T3DModel *pathModel = t3d_model_load("rom://path.t3dm");
+        T3DModel *trainModel = t3d_model_load("rom://train.t3dm");
         T3DModel *markerModel = t3d_model_load("rom://marker.t3dm");
 };

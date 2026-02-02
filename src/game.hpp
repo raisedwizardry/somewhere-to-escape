@@ -4,6 +4,7 @@
 #include "scene/time.hpp"
 #include "scene/scene.hpp"
 #include "actors/actors.hpp"
+#include "actors/models/gamestate.hpp"
 #include "menu/menu.hpp"
 #include "utility/lifecycle.hpp"
 #include "scene/action.hpp"
@@ -23,8 +24,10 @@ class SomewhereToEscapeGame {
         Action& _action;
         Menu& _menu;
 
+        GameState currentGameState = MAIN_MENU;
+        bool reachedCave = false;
+        bool reachedPath = false;
         bool isStartPressed();
-        bool gamePauseStateCheck();
 
         void updateControls();
         void setup();

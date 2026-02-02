@@ -9,6 +9,10 @@ class Menu {
         }
         void mainMenu();
         void makeCharacterSelection();
+        void levelOneObjective();
+        void levelThreeObjective();
+        void levelTwoObjective();
+        void gameComplete();
         Selection currentSelectedCharacter = NO_SELECTION;
         bool isCharacterSelectionMade = false;
         bool isCharacterSelectionConfirmed = false;

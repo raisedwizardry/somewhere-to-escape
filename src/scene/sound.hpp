@@ -7,7 +7,8 @@ enum Tune {
     SELECTION,
     RUNAWAY,
     MARCH,
-    JURI
+    JURI,
+    OUTRO
 };
 
 class Sound {

@@ -2,8 +2,6 @@
 #include "scene.hpp"
 
 void Scene::setupScene() {
-    _sound.switchSoundByTuneId(RUNAWAY, 0);
-
     _camera.viewport = t3d_viewport_create();
 
     _lights.setupLighting();
@@ -26,14 +24,21 @@ void Scene::updateControls() {
 
 }
 
-void Scene::updateScene() {
+void Scene::updateScene(GameState gameState) {
+    if (gameState == LEVEL_1) {
+        _sound.switchSoundByTuneId(RUNAWAY, 0);
+    }
+    else if (gameState == LEVEL_2) {
+        _sound.switchSoundByTuneId(MARCH, 0);
+    }
+    else if (gameState == LEVEL_3) {
+        _sound.switchSoundByTuneId(JURI, 0);
+    }
+
     _camera.renderCamera();
 
     t3d_viewport_attach(&_camera.viewport);
 
     _lights.updateLighting();
-}
-
-void Scene::drawScene() {
-    _setting.drawMap();
+    _setting.drawMap(gameState);
 }

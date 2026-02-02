@@ -29,6 +29,8 @@ const char *Sound::getFilenameByTuneId(Tune tune) {
             return "rom:/march.wav64";
         case JURI:
             return "rom:/fight-juri.wav64";
+        case OUTRO:
+            return "rom:/outro.wav64";
         default:
             return "rom:/logo.wav64";
     }

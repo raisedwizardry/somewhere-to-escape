@@ -7,6 +7,7 @@
 #include "sound.hpp"
 #include "../utility/button.hpp"
 #include "../utility/debugmode.hpp"
+#include "../actors/models/gamestate.hpp"
 
 #define TOTAL_PLAYERS 4
 
@@ -17,8 +18,7 @@ class Scene {
         }
         void setupScene();
         void updateControls();
-        void updateScene();
-        void drawScene();
+        void updateScene(GameState gameState);
         joypad_port_t currentPort = Button::ports[0];
     private:
         Setting& _setting;

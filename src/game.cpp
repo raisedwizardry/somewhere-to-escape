@@ -2,6 +2,8 @@
 #include "game.hpp"
 #include <libdragon.h>
 
+#include "actors/models/gamestate.hpp"
+
 void checkForSkip(void *ctx, int frame_idx, float time_sec, fmv_control_t *ctrl) {
 	joypad_poll();
 	joypad_buttons_t btn = joypad_get_buttons_pressed(JOYPAD_PORT_1);
@@ -15,15 +17,6 @@ bool SomewhereToEscapeGame::isStartPressed() {
 	joypad_poll();
 	joypad_buttons_t btn = joypad_get_buttons_pressed(JOYPAD_PORT_1);
 
-	if (btn.start) {
-		return true;
-	}
-	return false;
-}
-
-bool SomewhereToEscapeGame::gamePauseStateCheck() {
-	joypad_poll();
-	joypad_buttons_t btn = joypad_get_buttons_pressed(JOYPAD_PORT_1);
 	if (btn.start) {
 		return true;
 	}
@@ -46,6 +39,7 @@ void SomewhereToEscapeGame::start() {
 		mixer_try_play();
 
 		if (isStartPressed()) {
+			currentGameState = CHAR_SELECTION;
 			break;
 		}
 	}
@@ -64,20 +58,56 @@ void SomewhereToEscapeGame::start() {
 		}
 	}
 
+	for (;;) {
+		_menu.levelOneObjective();
+		mixer_try_play();
+
+		if (isStartPressed()) {
+			currentGameState = LEVEL_1;
+			break;
+		}
+	}
+
 	setup();
 
 	for (;;) {
-
 		if (isStartPressed()) {
 			_action.checkForUnpause();
 		}
 		else {
 			render();
-			if (_physics.isColliding(_actors.escapePlayer1.rigidBody, _actors.theJuri.rigidBody)) {
-				break;
+		}
+		if (currentGameState == LEVEL_1 && _physics.isColliding(_actors.escapePlayer1.rigidBody, _actors.cave.rigidBody)) {
+			reachedCave = true;
+			currentGameState = LEVEL_MENU;
+		}
+		if (reachedCave) {
+			_menu.levelTwoObjective();
+			mixer_try_play();
+			if (isStartPressed()) {
+				reachedCave = false;
+				currentGameState = LEVEL_2;
 			}
 		}
-		//exit the loop for quit functionality
+		if (currentGameState == LEVEL_2 && _physics.isColliding(_actors.escapePlayer1.rigidBody, _actors.path.rigidBody)) {
+			reachedPath = true;
+			currentGameState = LEVEL_MENU;
+		}
+		if (reachedPath) {
+			_menu.levelThreeObjective();
+			mixer_try_play();
+			if (isStartPressed()) {
+				reachedPath = false;
+				currentGameState = LEVEL_3;
+			}
+		}
+		if (currentGameState == LEVEL_3 && _physics.isColliding(_actors.escapePlayer1.rigidBody, _actors.train.rigidBody)) {
+			currentGameState = COMPLETE;
+			for (;;) {
+				_menu.gameComplete();
+				mixer_try_play();
+			}
+		}
 	}
 
     cleanup();
@@ -89,15 +119,12 @@ void SomewhereToEscapeGame::updateControls() {
 	_scene.updateControls();
 
 	_actors.updateActorsControls();
-
 }
 
 void SomewhereToEscapeGame::setup() {
-	_scene.setupScene();
-
-	_actors.createActors();
-
 	_time.setupTime();
+	_actors.createActors();
+	_scene.setupScene();
 }
 
 void SomewhereToEscapeGame::render() {
@@ -108,17 +135,16 @@ void SomewhereToEscapeGame::render() {
 	// ======== Draw (3D) ======== //
 	mixer_try_play();
 
+
 	_lifecycle.initDraw3d();
 
-	_scene.updateScene();
+	_scene.updateScene(currentGameState);
 	mixer_try_play();
-
-	_scene.drawScene();
 
 	_physics.stepSimulation();
 	mixer_try_play();
 
-	_actors.drawActors();
+	_actors.drawActors(currentGameState);
 	mixer_try_play();
 
 	_time.syncPoint = rspq_syncpoint_new();

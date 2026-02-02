@@ -52,6 +52,9 @@ void Physics::setGravity(btVector3 gravity) {
 }
 
 void Physics::createGroundRigidBody() {
+    if (groundPlaneBody) {
+        return;
+    }
     btCollisionShape *groundShape = new btStaticPlaneShape(btVector3(0.0f, 1.0f, 0.0f), 1);
 
     btDefaultMotionState *groundMotionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));

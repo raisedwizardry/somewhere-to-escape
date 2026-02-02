@@ -21,6 +21,104 @@ void Menu::mainMenu() {
     rdpq_detach_show();
 }
 
+void Menu::levelOneObjective() {
+    rdpq_attach(display_get(), display_get_zbuf());
+    _sound.switchSoundByTuneId(SELECTION, 0);
+
+    rdpq_set_mode_fill(RGBA32(100, 0, 200, 0));
+    rdpq_fill_rectangle(0, 0, 320, 240);
+    auto textParams = (rdpq_textparms_t){
+        .width = 320,
+        .align = ALIGN_CENTER,
+        .char_spacing = 2
+    };
+    rdpq_text_print(&textParams, 3, 0, 50, "Level One");
+    rdpq_text_print(&textParams, 3, 0, 65, "Runaway");
+
+    rdpq_text_print(&textParams, 3, 0, 88, " Story - Ram, Bunny, and Squir have decided ");
+    rdpq_text_print(&textParams, 3, 0, 100, " to escape Juri's domain. in order to do so ");
+    rdpq_text_print(&textParams, 3, 0, 112, " they must get to the train quickly");
+
+    rdpq_text_print(&textParams, 3, 0, 148, " Objective - head to the cave that ");
+    rdpq_text_print(&textParams, 3, 0, 160, " leads to the Orange Forest ");
+
+    rdpq_text_print(&textParams, 3, 0, 180, "Press Start");
+
+    rdpq_detach_show();
+}
+
+void Menu::levelTwoObjective() {
+    rdpq_attach(display_get(), display_get_zbuf());
+    _sound.switchSoundByTuneId(SELECTION, 0);
+
+    rdpq_set_mode_fill(RGBA32(100, 0, 200, 0));
+    rdpq_fill_rectangle(0, 0, 320, 240);
+    auto textParams = (rdpq_textparms_t){
+        .width = 320,
+        .align = ALIGN_CENTER,
+        .char_spacing = 2
+    };
+    rdpq_text_print(&textParams, 3, 0, 50, "Level Two");
+    rdpq_text_print(&textParams, 3, 0, 65, "Orange Forest");
+
+    rdpq_text_print(&textParams, 3, 0, 88, " Story - Cave Dwellers lurking in the ");
+    rdpq_text_print(&textParams, 3, 0, 100, " Orange Forest stand in the way of the ");
+    rdpq_text_print(&textParams, 3, 0, 112, " runaways. they flail for anyone near. ");
+
+    rdpq_text_print(&textParams, 3, 0, 148, " Objective - evade the dwellers ");
+    rdpq_text_print(&textParams, 3, 0, 160, " and head to the path to Juri's Domain. ");
+
+    rdpq_text_print(&textParams, 3, 0, 180, "Press Start");
+
+    rdpq_detach_show();
+}
+
+void Menu::levelThreeObjective() {
+    rdpq_attach(display_get(), display_get_zbuf());
+    _sound.switchSoundByTuneId(SELECTION, 0);
+
+    rdpq_set_mode_fill(RGBA32(100, 0, 200, 0));
+    rdpq_fill_rectangle(0, 0, 320, 240);
+    auto textParams = (rdpq_textparms_t){
+        .width = 320,
+        .align = ALIGN_CENTER,
+        .char_spacing = 2
+    };
+    rdpq_text_print(&textParams, 3, 0, 50, "Level Three");
+    rdpq_text_print(&textParams, 3, 0, 65, "Juri's Domain");
+
+    rdpq_text_print(&textParams, 3, 0, 88, " Story - Juri, an unreasonable demon, ");
+    rdpq_text_print(&textParams, 3, 0, 100, " will stop at nothing to prevent you from ");
+    rdpq_text_print(&textParams, 3, 0, 112, " reaching the train. ");
+
+    rdpq_text_print(&textParams, 3, 0, 148, " Objective - head to the train ");
+    rdpq_text_print(&textParams, 3, 0, 160, " so you can make your getaway ");
+
+    rdpq_text_print(&textParams, 3, 0, 180, "Press Start");
+
+    rdpq_detach_show();
+}
+
+void Menu::gameComplete() {
+    rdpq_attach(display_get(), display_get_zbuf());
+    _sound.switchSoundByTuneId(OUTRO, 0);
+
+    rdpq_set_mode_fill(RGBA32(100, 0, 200, 0));
+    rdpq_fill_rectangle(0, 0, 320, 240);
+    auto textParams = (rdpq_textparms_t){
+        .width = 320,
+        .align = ALIGN_CENTER,
+        .char_spacing = 2
+    };
+    rdpq_text_print(&textParams, 3, 0, 65, "Mission Accomplished");
+
+    rdpq_text_print(&textParams, 3, 0, 88, " Congratulations! you managed to ");
+    rdpq_text_print(&textParams, 3, 0, 100, " evade the dwellers, escape Juri's ");
+    rdpq_text_print(&textParams, 3, 0, 112, " clutches, and find...");
+    rdpq_text_print(&textParams, 3, 0, 180, " Somewhere to Escape");
+    rdpq_detach_show();
+}
+
 void Menu::makeCharacterSelection() {
     disp = display_get();
     graphics_fill_screen(disp, graphics_convert_color(RGBA32(100, 0, 200, 0)));

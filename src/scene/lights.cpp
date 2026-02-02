@@ -9,5 +9,5 @@ void Lights::setupLighting() {
 void Lights::updateLighting() {
     t3d_light_set_ambient(colorAmbient);
     t3d_light_set_directional(0, colorDir, &lightDirVec);
-    t3d_light_set_count(1);
+    t3d_light_set_count(0);
 }
